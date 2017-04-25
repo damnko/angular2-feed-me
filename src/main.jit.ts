@@ -2,7 +2,6 @@
  * Angular bootstraping
  */
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
-import { bootloader } from '@angularclass/hmr';
 import { enableProdMode } from '@angular/core';
 /*
  * App Module
@@ -22,6 +21,8 @@ export function main(): Promise<any> {
     .catch((err) => console.error(err));
 }
 
-// needed for hmr
-// in prod this is replace for document ready
-bootloader(main);
+if (document.readyState === 'complete'){
+  main();
+} else {
+  document.addEventListener('DOMContentLoaded', main);
+}
