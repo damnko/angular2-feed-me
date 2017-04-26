@@ -13,7 +13,9 @@
     "development": "npm run build:dev",
     "production": "npm run build:server:prod",
     "server:prod": "http-server dist -c-1 --cors",
-    "start": "npm run development"
+    "start": "npm run development",
+    "test": "karma start",
+    "test:watch": "npm run test -- --auto-watch --no-single-run"
   },
   "keywords": [
     "angular2"
@@ -31,6 +33,8 @@
     "@angular/platform-browser-dynamic": "^4.0.3",
     "@angular/platform-server": "^4.0.3",
     "@angular/router": "^4.0.3",
+    "@types/jasmine": "^2.5.47",
+    "@types/node": "^7.0.13",
     "add-asset-html-webpack-plugin": "^2.0.1",
     "angular2-template-loader": "^0.6.2",
     "assets-webpack-plugin": "^3.5.1",
@@ -46,7 +50,11 @@
     "json-loader": "^0.5.4",
     "karma": "^1.6.0",
     "karma-chrome-launcher": "^2.0.0",
+    "karma-coverage": "^1.1.1",
     "karma-jasmine": "^1.1.0",
+    "karma-mocha-reporter": "^2.2.3",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^2.0.3",
     "node-sass": "^4.5.2",
     "optimize-js-plugin": "^0.0.4",
     "raw-loader": "^0.5.1",
@@ -57,6 +65,7 @@
     "to-string-loader": "^1.1.5",
     "ts-lint": "^4.5.1",
     "ts-loader": "^2.0.3",
+    "tslint": "^5.1.0",
     "typescript": "^2.2.2",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.4",

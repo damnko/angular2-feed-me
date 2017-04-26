@@ -57,7 +57,7 @@ module.exports = {
         exclude: [helpers.root('src/index.html')]
       },
       {
-        test: /\.(jpg|png|gif)$/,
+        test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
         use: 'file-loader'
       },
       {
