@@ -19,6 +19,7 @@ const METADATA = {
 module.exports = {
   entry: {
     polyfills: './src/polyfills.ts',
+    vendor: './src/vendor.ts'
   },
   resolve: {
     extensions: ['.ts', '.js', '.json'],
@@ -28,8 +29,12 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: [/\.(spec|e2e)\.ts$/]
+        loaders: [
+          {
+            loader: 'awesome-typescript-loader',
+            options: { configFileName: 'tsconfig.json' }
+          } , 'angular2-template-loader'
+        ]
       },
       {
         test: /\.json$/,
@@ -70,20 +75,15 @@ module.exports = {
     }),
     new CheckerPlugin(),
     new CommonsChunkPlugin({
-      name: 'polyfills',
-      chunks: ['polyfills']
+      name: ['polyfills', 'vendor', 'main'].reverse()
     }),
-    new CommonsChunkPlugin({
-      name: 'vendor',
-      chunks: ['main']
-    }),
-    new CommonsChunkPlugin({
-      name: ['polyfills', 'vendor'].reverse()
-    }),
+    // Workaround for angular/angular#11580
     new ContextReplacementPlugin(
       // The (\\|\/) piece accounts for path separators in *nix and Windows
+      // https://github.com/angular/angular.io/issues/3514
       /angular(\\|\/)core(\\|\/)@angular/,
-      helpers.root('src')
+      helpers.root('src'), // location of your src
+      {} // a map of your routes
     ),
     new HtmlWebpackPlugin({
       template: 'src/index.html',

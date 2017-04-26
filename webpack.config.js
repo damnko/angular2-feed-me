@@ -4,7 +4,7 @@ const prodConfig = require('./config/webpack/webpack.prod');
 const ENV = process.env.NODE_ENV;
 
 switch (ENV) {
-  case 'prod':
+  case 'production':
     module.exports = prodConfig;
     break
   default:

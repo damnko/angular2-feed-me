@@ -5,9 +5,13 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeJsPlugin = require('optimize-js-plugin');
 const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
 
 const commonConfig = require('./webpack.common');
 const helpers = require('../helpers');
+
+const ENV = process.env.NODE_ENV || 'production';
 
 module.exports = webpackMerge(commonConfig, {
   entry: {
@@ -28,7 +32,7 @@ module.exports = webpackMerge(commonConfig, {
           fallback: 'style-loader',
           use: 'css-loader'
         }),
-        include: [helpers.root('src', 'styles')]
+        include: [helpers.root('src/styles')]
       },
 
       /*
@@ -40,16 +44,22 @@ module.exports = webpackMerge(commonConfig, {
           fallback: 'style-loader',
           use: 'css-loader!sass-loader'
         }),
-        include: [helpers.root('src', 'styles')]
+        include: [helpers.root('src/styles')]
       },
     ],
   },
   plugins: [
+    new NoEmitOnErrorsPlugin(),
     new OptimizeJsPlugin({
       sourceMap: false
     }),
     new ExtractTextPlugin('[name].[contenthash].css'),
-    new NoEmitOnErrorsPlugin(),
+    new DefinePlugin({
+      'process.env': {
+        'ENV': JSON.stringify(ENV),
+        'NODE_ENV': JSON.stringify(ENV)
+      }
+    }),
     // NOTE: To debug prod builds uncomment //debug lines and comment //prod lines
     new UglifyJsPlugin({
       // beautify: true, //debug
@@ -88,6 +98,10 @@ module.exports = webpackMerge(commonConfig, {
         negate_iife: false // we need this for lazy v8
       },
     }),
-
+    new LoaderOptionsPlugin({
+      htmlLoader: {
+        minimize: false // workaround for ng2
+      }
+    })
   ]
 });

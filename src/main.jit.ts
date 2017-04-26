@@ -21,7 +21,7 @@ export function main(): Promise<any> {
     .catch((err) => console.error(err));
 }
 
-if (document.readyState === 'complete'){
+if (document.readyState === 'complete') {
   main();
 } else {
   document.addEventListener('DOMContentLoaded', main);

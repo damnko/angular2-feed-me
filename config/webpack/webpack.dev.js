@@ -22,52 +22,19 @@ module.exports = webpackMerge(commonConfig, {
   module: {
     rules: [
       {
-        test: /\/css$/,
-        use: ['to-string-loader', 'css-loader'],
-        include: helpers.root('src/styles')
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+        include: [helpers.root('src/styles')]
       },
       {
         test: /\.scss$/,
-        use: ['to-string-loader', 'css-loader', 'sass-loader'],
-        include: helpers.root('src/styles')
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+        include: [helpers.root('src/styles')]
       }
     ]
   },
   plugins: [
-    new DllBundlesPlugin({
-      bundles: {
-        polyfills: [
-          'core-js',
-          {
-            name: 'zone.js',
-            path: 'zone.js/dist/zone.js'
-          },
-          {
-            name: 'zone.js',
-            path: 'zone.js/dist/long-stack-trace-zone.js'
-          },
-        ],
-        vendor: [
-          '@angular/platform-browser',
-          '@angular/platform-browser-dynamic',
-          '@angular/core',
-          '@angular/common',
-          '@angular/forms',
-          '@angular/http',
-          '@angular/router',
-          'rxjs',
-        ]
-      },
-      dllDir: helpers.root('dll'),
-      webpackConfig: webpackMergeDll(commonConfig, {
-        devtool: 'cheap-module-source-map',
-        plugins: []
-      })
-    }),
-    new AddAssetHtmlPlugin([
-      { filepath: helpers.root(`dll/${DllBundlesPlugin.resolveFile('polyfills')}`) },
-      { filepath: helpers.root(`dll/${DllBundlesPlugin.resolveFile('vendor')}`) }
-    ])
+
   ],
   devServer: {
     port: 3000,
