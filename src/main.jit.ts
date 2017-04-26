@@ -9,8 +9,9 @@ import { enableProdMode } from '@angular/core';
  */
 import { AppModule } from './app/app.module';
 
-if (process.env.NODE_ENV === 'production')
+if (process.env.NODE_ENV === 'production') {
   enableProdMode();
+}
 
 /*
  * Bootstrap our Angular app with a top level NgModule
