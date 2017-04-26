@@ -4,7 +4,16 @@
   "description": "A sample angular2 app to find ingredients and recipes",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rimraf build dist",
+    "build:dev": "cross-env NODE_ENV=dev webpack-dev-server --open --progress --profile --watch --content-base src/",
+    "build:prod": "cross-env NODE_ENV=prod webpack",
+    "build:ngc": "ngc",
+    "build": "npm run clean && npm run build:ngc && npm run build:prod",
+    "build:server:prod": "npm run build && npm run server:prod",
+    "development": "npm run build:dev",
+    "production": "npm run build:server:prod",
+    "server:prod": "http-server dist -c-1 --cors",
+    "start": "npm run development"
   },
   "keywords": [
     "angular2"
@@ -22,14 +31,39 @@
     "@angular/platform-browser-dynamic": "^4.0.3",
     "@angular/platform-server": "^4.0.3",
     "@angular/router": "^4.0.3",
+    "add-asset-html-webpack-plugin": "^2.0.1",
+    "assets-webpack-plugin": "^3.5.1",
+    "awesome-typescript-loader": "^3.1.2",
     "core-js": "^2.4.1",
+    "cross-env": "^4.0.0",
+    "css-loader": "^0.28.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
+    "html-webpack-plugin": "^2.28.0",
+    "ie-shim": "^0.1.0",
     "jasmine-core": "^2.6.0",
+    "json-loader": "^0.5.4",
     "karma": "^1.6.0",
     "karma-chrome-launcher": "^2.0.0",
     "karma-jasmine": "^1.1.0",
+    "optimize-js-plugin": "^0.0.4",
+    "raw-loader": "^0.5.1",
     "rxjs": "^5.3.0",
+    "sass-loader": "^6.0.3",
+    "script-ext-html-webpack-plugin": "^1.7.1",
+    "style-loader": "^0.16.1",
+    "to-string-loader": "^1.1.5",
     "ts-lint": "^4.5.1",
+    "ts-loader": "^2.0.3",
     "typescript": "^2.2.2",
-    "zone.js": "^0.8.8"
+    "webpack": "^2.4.1",
+    "webpack-dev-server": "^2.4.4",
+    "webpack-dll-bundles-plugin": "^1.0.0-beta.5",
+    "webpack-merge": "^4.1.0",
+    "zone.js": "0.8.9"
+  },
+  "dependencies": {
+    "http-server": "^0.9.0",
+    "rimraf": "^2.6.1"
   }
 }
