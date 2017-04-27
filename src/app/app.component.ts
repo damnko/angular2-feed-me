@@ -6,7 +6,10 @@ import { Component } from '@angular/core';
     `./app.component.scss`
   ],
   template: `
-    <h1>App main components</h1>
-    `
+    <h1>App main component</h1>
+    <sidebar></sidebar>
+    <menu></menu>
+    <router-outlet></router-outlet>
+  `
 })
 export class AppComponent { }
