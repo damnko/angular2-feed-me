@@ -55,9 +55,25 @@
   dependencies:
     tsickle "^0.21.0"
 
+"@ngrx/core@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@ngrx/core/-/core-1.2.0.tgz#882b46abafa2e0e6d887cb71a1b2c2fa3e6d0dc6"
+
+"@ngrx/effects@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@ngrx/effects/-/effects-2.0.3.tgz#e54ce340806dd91a81826796f13e2446aeeafb77"
+
+"@ngrx/store@^2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-2.2.2.tgz#a00305a6452032a3385886a11ce529dce2dae65b"
+
 "@types/jasmine@^2.5.47":
   version "2.5.47"
   resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-2.5.47.tgz#bbba9bcf0e95e7890c6f4a47394e8bacaa960eb6"
+
+"@types/lodash@^4.14.63":
+  version "4.14.63"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.63.tgz#5ac475f55bfdc62bc88c4239dbc482f2f3bead93"
 
 "@types/node@^6.0.46":
   version "6.0.70"
@@ -1390,6 +1406,16 @@ domutils@1.5.1:
   dependencies:
     dom-serializer "0"
     domelementtype "1"
+
+dotenv-webpack@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/dotenv-webpack/-/dotenv-webpack-1.4.3.tgz#f2ff3841e22d360807648d1a070d7fb22b8e2a02"
+  dependencies:
+    dotenv "^4.0.0"
+
+dotenv@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-4.0.0.tgz#864ef1379aced55ce6f95debecdce179f7a0cd1d"
 
 download@^4.0.0, download@^4.1.2:
   version "4.4.3"

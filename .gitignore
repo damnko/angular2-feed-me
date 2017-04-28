@@ -26,6 +26,7 @@ ts-node
 .lock-wscript
 .tsdrc
 .typingsrc
+.env
 
 #IDE configuration files
 .idea

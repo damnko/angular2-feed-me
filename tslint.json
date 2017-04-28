@@ -17,9 +17,16 @@
     "import-destructuring-spacing": true,
     "invoke-injectable": true,
     "no-access-missing-member": true,
+    "member-ordering": [
+      false
+    ],
     "no-attribute-parameter-decorator": true,
+    "arrow-parens": false,
     "no-forward-ref": true,
     "no-input-rename": true,
+    "one-variable-per-declaration": [
+      false
+    ],
     "no-output-rename": true,
     "no-var-requires": false,
     "pipe-naming": [true, "camelCase", "my"],

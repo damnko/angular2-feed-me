@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { config } from './config';
 
 @Component({
   selector: 'app',
@@ -12,4 +13,8 @@ import { Component } from '@angular/core';
     <router-outlet></router-outlet>
   `
 })
-export class AppComponent { }
+export class AppComponent {
+  constructor() {
+    console.log('config is', config);
+  }
+}
