@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { AppState } from './models/app-state';
+import { Store } from '@ngrx/store';
+import { Layout } from './models/layout';
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
 import { config } from './config';
 
 @Component({
@@ -6,15 +9,36 @@ import { config } from './config';
   styleUrls: [
     `./app.component.scss`
   ],
+  encapsulation: ViewEncapsulation.None,
   template: `
-    <h1>App main component</h1>
-    <sidebar></sidebar>
-    <menu></menu>
-    <router-outlet></router-outlet>
+    <ng-sidebar-container>
+      <ng-sidebar
+        [(opened)]="_opened"
+        mode="slide">
+        <sidebar></sidebar>
+      </ng-sidebar>
+      <toolbar></toolbar>
+      <router-outlet></router-outlet>
+    </ng-sidebar-container>
   `
 })
 export class AppComponent {
-  constructor() {
-    console.log('config is', config);
+
+  constructor(
+    private store: Store<AppState>
+  ) { }
+
+  public _opened: boolean = false;
+
+  public ngOnInit() {
+    this.store.select('layout')
+      .map((layout: Layout) => layout.sidebarOpened)
+      .subscribe(sidebarOpened => {
+        this.openSidebar(sidebarOpened);
+      });
+  }
+
+  public openSidebar(open: boolean): void {
+    this._opened = open;
   }
 }

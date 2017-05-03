@@ -1,9 +1,11 @@
+import { Layout } from './layout';
 import { Recipe } from './recipe';
 import { Ingredient } from './ingredient';
 
 export interface AppState {
   ingredient: Ingredient;
   recipe: Recipe;
+  layout: Layout;
 }
 
 export const initialIngredient: Ingredient = {
@@ -21,4 +23,8 @@ export const initialRecipe: Recipe = {
   loadingRecipes: false,
   recipes: [],
   recipeDetails: null
+};
+
+export const initialLayout: Layout = {
+  sidebarOpened: false
 };

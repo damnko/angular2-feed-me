@@ -9,16 +9,16 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   selector: 'sidebar',
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-  <h3>Ingredients selected</h3>
-  <em *ngIf="(recipe$|async)?.ingredients.size === 0; else ingredientsAdded">No ingredients added yet</em>
-  <ng-template #ingredientsAdded>
-    <ul>
-      <li *ngFor="let ingredient of (recipe$|async)?.ingredients.values()">
-        {{ ingredient.name }} | <span (click)="removeIngredient(ingredient.ndbno)">DELETE</span>
-      </li>
-    </ul>
-    <button (click)="searchRecipes()">Search recipes with these ingredients</button>
-  </ng-template>
+    <h3>Ingredients selected</h3>
+    <em *ngIf="(recipe$|async)?.ingredients.size === 0; else ingredientsAdded">No ingredients added yet</em>
+    <ng-template #ingredientsAdded>
+      <ul>
+        <li *ngFor="let ingredient of (recipe$|async)?.ingredients.values()">
+          {{ ingredient.name }} | <span (click)="removeIngredient(ingredient.ndbno)">DELETE</span>
+        </li>
+      </ul>
+      <button (click)="searchRecipes()">Search recipes with these ingredients</button>
+    </ng-template>
   `
 })
 

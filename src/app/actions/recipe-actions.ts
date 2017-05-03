@@ -1,7 +1,6 @@
-import { RecipeIngredient } from './../models/recipe';
 import { Action } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-
+import { RecipeIngredient } from './../models/recipe';
 
 export const SET_LOADING = 'SET_LOADING_RECIPE',
              ADD_INGREDIENT = 'ADD_INGREDIENT',

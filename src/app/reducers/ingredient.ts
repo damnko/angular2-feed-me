@@ -1,5 +1,5 @@
-import { Ingredient } from '../models/ingredient';
 import { Action } from '@ngrx/store';
+import { Ingredient } from '../models/ingredient';
 
 import {
   SET_LOADING,
@@ -24,12 +24,25 @@ export function ingredient(state: Ingredient, action: Action): Ingredient {
       return Object.assign({}, state, { error: action.payload });
     case SET_LOADING_DETAILS:
       return Object.assign({}, state, { loadingDetails: action.payload });
+    case SEARCH_INGREDIENT_DETAILS:
+      return setIngredientLoadingState(state, action.payload, true);
     case SEARCH_INGREDIENT_DETAILS_SUCCESS:
-      console.log('payload is', action.payload);
+      state = setIngredientLoadingState(state, action.payload.report.food.ndbno, false);
       return Object.assign({}, state, { selectedIngredient: action.payload });
     case SEARCH_INGREDIENT_DETAILS_FAILED:
       return Object.assign({}, state, { detailsError: action.payload });
     default:
       return state;
   }
+}
+
+function setIngredientLoadingState(state: Ingredient, id: string, isLoading: boolean) {
+  let item = state.details.item.map((item: any) => {
+    if (item.ndbno === id) {
+      return Object.assign({}, item, { loadingDetails: isLoading });
+    } else {
+      return item;
+    }
+  });
+  return Object.assign({}, state, { details: { item } });
 }

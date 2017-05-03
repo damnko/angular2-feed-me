@@ -1,6 +1,6 @@
-import { AppState } from './../models/app-state';
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
+import { AppState } from './../models/app-state';
 
 export const SET_LOADING = 'SET_LOADING',
              SEARCH_INGREDIENT = 'SEARCH_INGREDIENT',
@@ -10,7 +10,6 @@ export const SET_LOADING = 'SET_LOADING',
              SEARCH_INGREDIENT_DETAILS_SUCCESS = 'SEARCH__INGREDIENT_DETAILS_SUCCESS',
              SEARCH_INGREDIENT_DETAILS_FAILED = 'SEARCH__INGREDIENT_DETAILS_FAILED',
              SET_LOADING_DETAILS = 'SET_LOADING_DETAILS';
-
 
 @Injectable()
 export class IngredientActions {

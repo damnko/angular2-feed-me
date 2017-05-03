@@ -1,3 +1,4 @@
+import { LayoutActions } from './actions/layout-actions';
 import { RecipesComponent } from './components/recipes.component';
 import { RecipeService } from './services/recipe.service';
 import { RecipeEffects } from './effects/recipe-effects';
@@ -10,13 +11,21 @@ import { BrowserModule  } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MdButtonModule, MdToolbarModule, MdGridListModule, MdInputModule, MdGridListModule, MdCardModule, MdChipsModule, MdDialogModule, MdProgressBarModule } from '@angular/material';
+import { SidebarModule } from 'ng-sidebar';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
+import 'hammerjs';
 
 import { ingredient } from './reducers/ingredient';
 import { recipe } from './reducers/recipe';
-import { initialIngredient, initialRecipe } from './models/app-state';
+import { layout } from './reducers/layout';
+import { initialIngredient, initialRecipe, initialLayout } from './models/app-state';
 
 import {
-  MenuComponent,
+  ToolbarComponent,
   SidebarComponent,
   LoginComponent
 } from './components';
@@ -38,13 +47,26 @@ import '../styles/styles.scss';
     AppRoutingModule,
     EffectsModule.run(IngredientEffects),
     EffectsModule.run(RecipeEffects),
-    StoreModule.provideStore({ ingredient, recipe }, { ingredient: initialIngredient, recipe: initialRecipe })
+    StoreModule.provideStore({ ingredient, recipe, layout }, { ingredient: initialIngredient, recipe: initialRecipe, layout: initialLayout }),
+    BrowserAnimationsModule,
+    MdButtonModule,
+    MdToolbarModule,
+    MdGridListModule,
+    MdInputModule,
+    MdGridListModule,
+    MdCardModule,
+    MdChipsModule,
+    MdDialogModule,
+    MdProgressBarModule,
+    SidebarModule.forRoot(),
+    FlexLayoutModule,
+    NgxDatatableModule
   ],
   declarations: [
     AppComponent,
     LoginComponent,
     FactsheetComponent,
-    MenuComponent,
+    ToolbarComponent,
     SearchInputComponent,
     IngredientSearchComponent,
     SidebarComponent,
@@ -55,7 +77,11 @@ import '../styles/styles.scss';
     IngredientActions,
     IngredientService,
     RecipeActions,
-    RecipeService
+    RecipeService,
+    LayoutActions
+  ],
+  entryComponents: [
+    FactsheetComponent
   ]
 })
 export class AppModule { }

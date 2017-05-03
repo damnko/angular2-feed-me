@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import {
   SET_LOADING,
   ADD_INGREDIENT,
@@ -5,7 +6,6 @@ import {
   SEARCH_RECIPE_SUCCESS
 } from './../actions/recipe-actions';
 import { Recipe } from './../models/recipe';
-import { Action } from '@ngrx/store';
 
 export function recipe(state: Recipe, action: Action): Recipe {
   switch (action.type) {
