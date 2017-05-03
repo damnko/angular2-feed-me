@@ -12,7 +12,7 @@ import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdToolbarModule, MdGridListModule, MdInputModule, MdGridListModule, MdCardModule, MdChipsModule, MdDialogModule, MdProgressBarModule } from '@angular/material';
+import { MdButtonModule, MdToolbarModule, MdInputModule, MdCardModule, MdChipsModule, MdDialogModule, MdProgressBarModule, MdSnackBarModule, MdListModule } from '@angular/material';
 import { SidebarModule } from 'ng-sidebar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -51,13 +51,13 @@ import '../styles/styles.scss';
     BrowserAnimationsModule,
     MdButtonModule,
     MdToolbarModule,
-    MdGridListModule,
     MdInputModule,
-    MdGridListModule,
     MdCardModule,
     MdChipsModule,
     MdDialogModule,
     MdProgressBarModule,
+    MdSnackBarModule,
+    MdListModule,
     SidebarModule.forRoot(),
     FlexLayoutModule,
     NgxDatatableModule

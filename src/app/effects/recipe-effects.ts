@@ -4,7 +4,7 @@ import { RecipeService } from './../services/recipe.service';
 import { Observable } from 'rxjs/Observable';
 import { Action, Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 import { Injectable, ChangeDetectionStrategy } from '@angular/core';
 
 import { SEARCH_RECIPE, SEARCH_RECIPE_SUCCESS } from '../actions/recipe-actions';
@@ -32,6 +32,15 @@ export class RecipeEffects {
 
   @Effect()
   public showRecipes$ = this.actions.ofType(SEARCH_RECIPE_SUCCESS)
-    .do(() => this.router.navigateByUrl('/recipes'))
-    .ignoreElements();
+    .map((action: Action) => action.payload)
+    .do(data => {
+      console.log('data is', data);
+      const navigationExtras: NavigationExtras = {
+        queryParams: {
+          q: data.query
+        }
+      };
+      this.router.navigate(['/recipes'], navigationExtras);
+      // this.router.navigateByUrl('/recipes');
+    }).ignoreElements();
 }

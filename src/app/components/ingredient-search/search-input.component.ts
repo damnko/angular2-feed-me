@@ -131,7 +131,7 @@ export class SearchInputComponent implements OnInit {
   public toggleIngredient(ingredient: any, event: any): void {
     event.stopPropagation();
     const ingredientData = {
-      name: ingredient.name,
+      name: ingredient.title,
       ndbno: ingredient.ndbno
     };
     if (this.isSaved(ingredient.ndbno)) {

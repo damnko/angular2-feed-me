@@ -5,6 +5,7 @@ import { RecipeIngredient } from './../models/recipe';
 export const SET_LOADING = 'SET_LOADING_RECIPE',
              ADD_INGREDIENT = 'ADD_INGREDIENT',
              REMOVE_INGREDIENT = 'REMOVE_INGREDIENT',
+             CLEAR_INGREDIENT_LIST = 'CLEAR_INGREDIENT_LIST',
              SEARCH_RECIPE = 'SEARCH_RECIPE',
              SEARCH_RECIPE_SUCCESS = 'SEARCH_RECIPE_SUCCESS',
              SEARCH_RECIPE_FAILED = 'SEARCH_RECIPE_FAILED';
@@ -29,6 +30,12 @@ export class RecipeActions {
     return {
       type: REMOVE_INGREDIENT,
       payload: ndbno
+    };
+  }
+
+  public clearIngredientList(): Action {
+    return {
+      type: CLEAR_INGREDIENT_LIST
     };
   }
 

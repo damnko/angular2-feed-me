@@ -10,12 +10,24 @@ export class RecipeService {
   public searchRecipes(query: string): Observable<any> {
     return this.http.get(`https://api.edamam.com/search?q=${query}&app_id=${config.edamam.appId}&app_key=${config.edamam.apiKey}&from=0&to=3`)
       .map(res => res.json())
+      .do(res => console.log(res))
       .map(res => {
-        return res.hits.map((item: any) => {
-          return {
-            name: item.recipe.label
-          };
-        });
-      });
+        return {
+          query: res.q,
+          count: res.count,
+          from: res.from,
+          to: res.to,
+          hits: res.hits.map((item: any) => {
+            return {
+              name: item.recipe.label,
+              img: item.recipe.image,
+              url: item.recipe.url,
+              labels: item.recipe.healthLabels,
+              calories: item.recipe.calories,
+              ingredients: item.recipe.ingredientLines
+            };
+          })
+        };
+      }).do(console.log);
   }
 }
