@@ -21,8 +21,6 @@ import { Component, OnInit } from '@angular/core';
     <i class="fa fa-times" (click)="toggleSide()" *ngIf="(layout$|async)?.sidebarOpened"></i>
     <a routerLink="/" routerLinkActive="active">FeedMe Logo</a>
     <span class="menu-space-filler"></span>
-    <a routerLink="/login" routerLinkActive="active">Login</a>
-    <a routerLink="/" routerLinkActive="active">Subscribe</a>
     <a routerLink="/" routerLinkActive="active">Github</a>
   </md-toolbar>
 

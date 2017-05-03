@@ -8,7 +8,8 @@ export const SET_LOADING = 'SET_LOADING_RECIPE',
              CLEAR_INGREDIENT_LIST = 'CLEAR_INGREDIENT_LIST',
              SEARCH_RECIPE = 'SEARCH_RECIPE',
              SEARCH_RECIPE_SUCCESS = 'SEARCH_RECIPE_SUCCESS',
-             SEARCH_RECIPE_FAILED = 'SEARCH_RECIPE_FAILED';
+             SEARCH_RECIPE_FAILED = 'SEARCH_RECIPE_FAILED',
+             SELECT_RECIPE = 'SELECT_RECIPE';
 
 @Injectable()
 export class RecipeActions {
@@ -57,6 +58,13 @@ export class RecipeActions {
     return {
       type: SEARCH_RECIPE_FAILED,
       payload: error
+    };
+  }
+
+  public selectRecipe(id: string): Action {
+    return {
+      type: SELECT_RECIPE,
+      payload: id
     };
   }
 }

@@ -22,7 +22,7 @@ export const initialRecipe: Recipe = {
   ingredients: new Map(),
   loadingRecipes: false,
   recipes: [],
-  recipeDetails: null
+  selectedRecipe: null
 };
 
 export const initialLayout: Layout = {
