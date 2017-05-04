@@ -1,3 +1,4 @@
+import { LayoutActions } from './actions/layout-actions';
 import { AppState } from './models/app-state';
 import { Store } from '@ngrx/store';
 import { Layout } from './models/layout';
@@ -17,7 +18,7 @@ import { config } from './config';
         mode="push">
         <sidebar></sidebar>
       </ng-sidebar>
-      <section id="main-content">
+      <section>
         <toolbar></toolbar>
         <router-outlet></router-outlet>
       </section>
@@ -27,7 +28,8 @@ import { config } from './config';
 export class AppComponent {
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private layoutActions: LayoutActions
   ) { }
 
   public _opened: boolean = false;
@@ -38,9 +40,15 @@ export class AppComponent {
       .subscribe(sidebarOpened => {
         this.openSidebar(sidebarOpened);
       });
+
+    setTimeout(() => {
+      this.store.dispatch(
+        this.layoutActions.openSidebar(true)
+      );
+    }, 1000);
   }
 
   public openSidebar(open: boolean): void {
-    this._opened = open;
+      this._opened = open;
   }
 }

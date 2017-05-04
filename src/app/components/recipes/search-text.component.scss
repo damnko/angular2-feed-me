@@ -1,0 +1,15 @@
+@import '../../../styles/variables';
+
+h3 {
+  .query {
+    padding: 3px;
+    background-color: map-get($bg-colors, light);
+  }
+  input {
+    color: map-get($primary-colors, dark-vivid);
+    font-size: 1em;
+    font-weight: bold;
+    background-color: transparent;
+    border: none;
+  }
+}

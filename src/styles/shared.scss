@@ -1,0 +1,21 @@
+@import './variables';
+
+%outline-card {
+  -webkit-box-shadow: 0px 0px 0px 3px map-get($primary-colors, dark-vivid);
+     -moz-box-shadow: 0px 0px 0px 3px map-get($primary-colors, dark-vivid);
+          box-shadow: 0px 0px 0px 3px map-get($primary-colors, dark-vivid);
+}
+
+%ingredient-card {
+  margin-bottom: 10px;
+  padding-bottom: 45px;
+  cursor: pointer;
+
+  &:hover {
+    @extend %outline-card;
+  }
+
+  md-card-title {
+    font-weight: bold;
+  }
+}

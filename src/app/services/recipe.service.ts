@@ -8,7 +8,7 @@ export class RecipeService {
   constructor(private http: Http) { }
 
   public searchRecipes(query: string): Observable<any> {
-    return this.http.get(`https://api.edamam.com/search?q=${query}&app_id=${config.edamam.appId}&app_key=${config.edamam.apiKey}&from=0&to=3`)
+    return this.http.get(`https://api.edamam.com/search?q=${query}&app_id=${config.edamam.appId}&app_key=${config.edamam.apiKey}&from=0&to=10`)
       .map(res => res.json())
       .do(res => console.log(res))
       .map(res => {

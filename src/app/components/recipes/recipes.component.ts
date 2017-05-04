@@ -1,48 +1,16 @@
-import { RecipeActions } from './../actions/recipe-actions';
-import { Recipe } from './../models/recipe';
+import { RecipeActions } from '../../actions/recipe-actions';
+import { Recipe } from '../../models/recipe';
 import { Observable } from 'rxjs/Observable';
-import { AppState } from './../models/app-state';
+import { AppState } from '../../models/app-state';
 import { Store } from '@ngrx/store';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'recipes',
-  styles: [`
-    .boh {
-      margin-bottom: 10px;
-      padding-bottom: 45px;
-    }
-    /deep/ .mat-card-header-text {
-      width: 100%;
-    }
-    .recipe-tag {
-      display: inline-block;
-      padding: 3px;
-    }
-  `],
+  styleUrls: ['./recipes.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-  <span *ngIf="(recipes$|async)?.loadingRecipes">Searching for recipes with {{ query }}</span>
-  <h3>Recipe search results for {{ (recipes$|async)?.recipes.query }}</h3>
-  <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutGap="10px" fxLayoutAlign="left">
-    <md-card
-      *ngFor="let recipe of (recipes$|async)?.recipes.hits"
-      class="boh"
-      [fxFlex]="isSelected((recipes$|async)?.selectedRecipe, recipe) ? 40: 20"
-      (click)="selectRecipe(recipe.name)">
-      <md-card-header>
-        <md-card-title>{{ recipe.name }}</md-card-title>
-      </md-card-header>
-      <img md-card-image [src]="recipe.img">
-      <md-card-content>
-        <div>{{ recipe.ingredients.join(', ') }}</div>
-        <h5>Health labels:</h5>
-        <span class="recipe-tag" *ngFor="let label of recipe.labels">{{ label }}</span>
-      </md-card-content>
-    </md-card>
-  </div>
-  `
+  templateUrl: `./recipes.component.html`
 })
 
 export class RecipesComponent implements OnInit {
@@ -104,6 +72,13 @@ export class RecipesComponent implements OnInit {
   public selectRecipe(name: string): void {
     this.store.dispatch(
       this.recipeActions.selectRecipe(name)
+    );
+  }
+
+  public searchRecipe(searchText: string): void {
+    this.query = searchText;
+    this.store.dispatch(
+      this.recipeActions.searchRecipe(searchText)
     );
   }
 

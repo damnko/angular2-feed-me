@@ -9,10 +9,7 @@
 </div>
 </div>
 <div *ngIf="(ingredient$|async)?.searchTerm !== ''">
-  <span *ngIf="(ingredient$|async)?.loading" class="loading-ingredients">
-    <md-spinner></md-spinner>
-    Searching for <strong>{{ (ingredient$|async)?.searchTerm }}</strong>...
-  </span>
+  <loading-message [searchString]="(ingredient$|async)?.searchTerm" *ngIf="(ingredient$|async)?.loading"></loading-message>
   <div *ngIf="(ingredient$|async)?.details || (ingredient$|async)?.error" fxLayout="row" fxLayoutAlign="center" fxLayoutWrap="wrap">
     <div fxFlex="100">
       <h2>

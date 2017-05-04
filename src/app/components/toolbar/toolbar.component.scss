@@ -10,8 +10,8 @@
   background-color: map-get($primary-colors, dark);
 }
 md-toolbar {
-  position: fixed;
-  top: 0;
+  // position: fixed;
+  // top: 0;
 
   a {
     @extend %vivid-link;

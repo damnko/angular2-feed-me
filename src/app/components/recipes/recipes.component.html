@@ -1,0 +1,37 @@
+<div fxLayout="row" fxLayoutAlign="center">
+  <div fxFlex="100" fxLayoutAlign="center">
+    <loading-message [searchString]="query" *ngIf="(recipes$|async)?.loadingRecipes"></loading-message>
+  </div>
+</div>
+<div fxLayout="row" fxLayoutWrap="wrap" fxLayoutGap="10px" fxLayoutAlign="left" class="recipe-wrapper">
+  <div fxFlex="100" *ngIf="(recipes$|async)?.recipes.hits && (recipes$|async)?.recipes.hits.length === 0 && !(recipes$|async)?.loadingRecipes">
+    <search-recipe-text
+       [resultsFound]="false"
+      [query]="query"
+      (onSearchRecipe)="searchRecipe($event)">
+    </search-recipe-text>
+  </div>
+  <div fxFlex="100" *ngIf="(recipes$|async)?.recipes.hits && (recipes$|async)?.recipes.hits.length > 0">
+    <search-recipe-text
+      [query]="query"
+      [resultsFound]="true"
+      (onSearchRecipe)="searchRecipe($event)">
+    </search-recipe-text>
+  </div>
+  <md-card
+    *ngFor="let recipe of (recipes$|async)?.recipes.hits"
+    class="recipe-card"
+    [class.selected]="isSelected((recipes$|async)?.selectedRecipe, recipe)"
+    [fxFlex]="isSelected((recipes$|async)?.selectedRecipe, recipe) ? 18: 16"
+    (click)="selectRecipe(recipe.name)">
+    <md-card-header>
+      <md-card-title>{{ recipe.name }}</md-card-title>
+    </md-card-header>
+    <img md-card-image [src]="recipe.img">
+    <md-card-content>
+      <div>{{ recipe.ingredients.join(', ') }}</div>
+      <h5>Health labels:</h5>
+      <span class="recipe-tag" *ngFor="let label of recipe.labels">{{ label }}</span>
+    </md-card-content>
+  </md-card>
+</div>

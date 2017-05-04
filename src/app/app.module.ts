@@ -1,5 +1,4 @@
 import { LayoutActions } from './actions/layout-actions';
-import { RecipesComponent } from './components/recipes.component';
 import { RecipeService } from './services/recipe.service';
 import { RecipeEffects } from './effects/recipe-effects';
 import { RecipeActions } from './actions/recipe-actions';
@@ -11,6 +10,7 @@ import { BrowserModule  } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MdButtonModule, MdToolbarModule, MdInputModule, MdCardModule, MdChipsModule, MdDialogModule, MdProgressBarModule, MdSnackBarModule, MdListModule, MdProgressSpinnerModule } from '@angular/material';
 import { SidebarModule } from 'ng-sidebar';
@@ -27,8 +27,11 @@ import { initialIngredient, initialRecipe, initialLayout } from './models/app-st
 import {
   ToolbarComponent,
   SidebarComponent,
-  LoginComponent
+  LoginComponent,
+  RecipesComponent,
+  SearchTextComponent
 } from './components';
+import { LoadingComponent } from './shared';
 import {
   IngredientSearchComponent,
   FactsheetComponent,
@@ -43,6 +46,7 @@ import '../styles/styles.scss';
 @NgModule({
   imports: [
     BrowserModule,
+    FormsModule,
     HttpModule,
     AppRoutingModule,
     EffectsModule.run(IngredientEffects),
@@ -71,7 +75,9 @@ import '../styles/styles.scss';
     SearchInputComponent,
     IngredientSearchComponent,
     SidebarComponent,
-    RecipesComponent
+    RecipesComponent,
+    LoadingComponent,
+    SearchTextComponent
   ],
   bootstrap: [AppComponent],
   providers: [
