@@ -6,6 +6,7 @@ export const SET_LOADING = 'SET_LOADING',
              SEARCH_INGREDIENT = 'SEARCH_INGREDIENT',
              SEARCH_INGREDIENT_SUCCESS = 'SEARCH_INGREDIENT_SUCCESS',
              SEARCH_INGREDIENT_FAIL = 'SEARCH_INGREDIENT_FAIL',
+             CLEAR_SEARCH = 'CLEAR_SEARCH',
              SEARCH_INGREDIENT_DETAILS = 'SEARCH__INGREDIENT_DETAILS',
              SEARCH_INGREDIENT_DETAILS_SUCCESS = 'SEARCH__INGREDIENT_DETAILS_SUCCESS',
              SEARCH_INGREDIENT_DETAILS_FAILED = 'SEARCH__INGREDIENT_DETAILS_FAILED',
@@ -33,6 +34,12 @@ export class IngredientActions {
     return {
       type: SEARCH_INGREDIENT_FAIL,
       payload: error
+    };
+  }
+
+  public clearSearch(): Action {
+    return {
+      type: CLEAR_SEARCH
     };
   }
 

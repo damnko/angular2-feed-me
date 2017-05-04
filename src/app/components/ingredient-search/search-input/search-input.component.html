@@ -1,0 +1,48 @@
+<div fxLayout="row" fxLayoutAlign="center">
+  <div fxFlex="50">
+    <md-input-container align="center" class="main-search">
+      <input mdInput placeholder="Search ingredient here" #searchBox>
+    </md-input-container>
+    <div *ngIf="(ingredient$|async)?.searchTerm === ''" class="animated bounce">
+      Type some ingredient like <strong class="typewriter" (click)="searchSampleString(sampleString)" #sampleString></strong>
+    </div>
+</div>
+</div>
+<div *ngIf="(ingredient$|async)?.searchTerm !== ''">
+  <span *ngIf="(ingredient$|async)?.loading" class="loading-ingredients">
+    <md-spinner></md-spinner>
+    Searching for <strong>{{ (ingredient$|async)?.searchTerm }}</strong>...
+  </span>
+  <div *ngIf="(ingredient$|async)?.details || (ingredient$|async)?.error" fxLayout="row" fxLayoutAlign="center" fxLayoutWrap="wrap">
+    <div fxFlex="100">
+      <h2>
+        Search results for
+        <span class="search-string">
+          {{ (ingredient$|async)?.searchTerm }}
+          <a href="#" (click)="clearSearch($event)"><i class="fa fa-times-circle fa-fw" aria-hidden="true"></i></a>
+        </span>
+      </h2>
+    </div>
+    <div *ngIf="(ingredient$|async)?.error" fxFlex="50" fxLayoutAlign="center">
+      No ingredient found by the name of {{ (ingredient$|async)?.searchTerm }}
+    </div>
+    <div *ngIf="(ingredient$|async)?.details" fxFlex="100" fxLayoutWrap="wrap" fxLayoutAlign="center" fxLayoutGap="10px">
+      <md-card
+        *ngFor="let ing of (ingredient$|async)?.details.item"
+        class="ingredient-card"
+        [class.isSaved]="isSaved(ing.ndbno)"
+        fxFlex="10"
+        (click)="searchIngredientDetails(ing)">
+        <md-progress-bar *ngIf="ing.loadingDetails" mode="indeterminate" class="progress-bar"></md-progress-bar>
+        <md-card-header>
+          <md-card-title>{{ ing.title }}</md-card-title>
+        </md-card-header>
+        <md-card-content>{{ ing.name }}</md-card-content>
+        <button md-mini-fab class="save-button" (click)="toggleIngredient(ing, $event)">
+          <i class="fa fa-star-o" aria-hidden="true" *ngIf="!isSaved(ing.ndbno)"></i>
+          <i class="fa fa-star" aria-hidden="true" *ngIf="isSaved(ing.ndbno)"></i>
+        </button>
+      </md-card>
+    </div>
+  </div>
+</div>

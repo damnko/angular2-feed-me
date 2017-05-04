@@ -1,6 +1,16 @@
-h1{
-  color: purple;
-}
+@import '../styles/variables';
+
 .ng-sidebar {
-  width: 200px;
+  width: 250px;
+  background-color: map-get($primary-colors, dark-vivid) !important;
+
+  &.ng-sidebar--opened {
+    -webkit-box-shadow: 2px 0px 0px 2px map-get($bg-colors, light);
+    -moz-box-shadow: 2px 0px 0px 2px map-get($bg-colors, light);
+    box-shadow: 2px 0px 0px 2px map-get($bg-colors, light);
+  }
+}
+
+#main-content {
+  padding-top: 90px;
 }

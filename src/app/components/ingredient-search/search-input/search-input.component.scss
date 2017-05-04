@@ -1,0 +1,77 @@
+@import '../../../../styles/variables';
+
+.main-search {
+  width: 100%;
+}
+
+/deep/ .mat-card-header-text {
+  width: 100%;
+}
+
+.typewriter {
+  display: inline-block;
+  text-decoration: underline;
+
+  &:hover {
+    @extend %cta-light-button;
+    cursor: pointer;
+  }
+}
+
+.loading-ingredients {
+  @extend %light-container;
+  display: inline-block;
+  padding: 10px;
+  border-radius: 5px;
+
+  md-spinner {
+    margin: 0 auto;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.search-string {
+  @extend %dark-container;
+  display: inline-block;
+  padding: 3px;
+  padding-left: 6px;
+  border-radius: 2px;
+
+  a {
+    color: map-get($primary-colors, link);
+    // cursor: pointer;
+  }
+}
+
+.ingredient-card {
+  margin-bottom: 10px;
+  padding-bottom: 45px;
+  cursor: pointer;
+
+  &.isSaved {
+    @extend %dark-vivid-container;
+  }
+
+  &:hover {
+    -webkit-box-shadow: 0px 0px 0px 3px map-get($primary-colors, dark-vivid);
+    -moz-box-shadow: 0px 0px 0px 3px map-get($primary-colors, dark-vivid);
+    box-shadow: 0px 0px 0px 3px map-get($primary-colors, dark-vivid);
+  }
+
+  .progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  md-card-title {
+    font-weight: bold;
+  }
+
+  .save-button {
+    position: absolute;
+    bottom: 18px;
+    margin-left: -20px;
+  }
+}

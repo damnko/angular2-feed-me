@@ -62,5 +62,8 @@ export class IngredientEffects {
 
   @Effect({ dispatch: false })
   public showDeleteSnackbar$ = this.actions.ofType(REMOVE_INGREDIENT)
-    .do(() => this.snackBar.open('Item removed from ingredients list', null, { duration: 1500 }));
+    .do(() => this.snackBar.open('Item removed from ingredients list', null, {
+      duration: 1500,
+      extraClasses: ['snackbar-delete']
+    }));
 }

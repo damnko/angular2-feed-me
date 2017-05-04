@@ -1,24 +1,19 @@
-import { Layout } from './../models/layout';
+import { Layout } from '../../models/layout';
 import { Observable } from 'rxjs/Observable';
-import { LayoutActions } from './../actions/layout-actions';
-import { AppState } from './../models/app-state';
+import { LayoutActions } from '../../actions/layout-actions';
+import { AppState } from '../../models/app-state';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'toolbar',
-  styles: [`
-    .active {
-      font-weight: bold
-    }
-    .menu-space-filler {
-      flex: 1 1 auto;
-    }
-  `],
+  styleUrls: [`./toolbar.component.scss`],
   template: `
-  <md-toolbar color="primary">
-    <i class="fa fa-bars" (click)="toggleSide()" *ngIf="!(layout$|async)?.sidebarOpened"></i>
-    <i class="fa fa-times" (click)="toggleSide()" *ngIf="(layout$|async)?.sidebarOpened"></i>
+  <md-toolbar color="primary" class="toolbar">
+    <a href="#" (click)="toggleSide($event)" class="toggle-toolbar-icon">
+      <i class="fa fa-bars" *ngIf="!(layout$|async)?.sidebarOpened"></i>
+      <i class="fa fa-times" *ngIf="(layout$|async)?.sidebarOpened"></i>
+    </a>
     <a routerLink="/" routerLinkActive="active">FeedMe Logo</a>
     <span class="menu-space-filler"></span>
     <a routerLink="/" routerLinkActive="active">Github</a>
@@ -39,7 +34,8 @@ export class ToolbarComponent implements OnInit {
     this.layout$ = this.store.select('layout');
   }
 
-  public toggleSide() {
+  public toggleSide(event: any) {
+    event.preventDefault();
     this.store.dispatch(
       this.layoutActions.toggleSidebar()
     );

@@ -1,0 +1,44 @@
+@import '../../../styles/variables';
+
+.sidebar-wrapper {
+  padding: 15px;
+  color: map-get($primary-colors, light);
+
+  h3 {
+    color: map-get($primary-colors, light);
+  }
+
+  .sidebar-content {
+    text-align: center;
+
+    ul {
+      list-style-type: none;
+      padding-left: 0;
+      padding-right: 15px;
+
+      li.ingredient {
+        position: relative;
+        text-align: left;
+        margin-bottom: 5px;
+        padding-bottom: 5px;
+        border-bottom: 1px solid rgba(map-get($bg-colors, light), .25);
+
+        a.remove-ingredient {
+          color: map-get($primary-colors, light);;
+
+          i {
+            position: absolute;
+            right: -10px;
+            top: 0;
+          }
+        }
+      }
+    }
+  }
+
+  button.search-recipes {
+    @extend %cta-light-vivid-button;
+    display: block;
+    margin: 0 auto;
+  }
+}

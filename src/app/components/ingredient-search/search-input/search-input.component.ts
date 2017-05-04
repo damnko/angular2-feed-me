@@ -3,69 +3,19 @@ import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { MdDialog, MdDialogRef } from '@angular/material';
 
-import { IngredientActions } from './../../actions/ingredient-action';
-import { AppState } from '../../models/app-state';
-import { RecipeActions } from './../../actions/recipe-actions';
-import { Recipe, RecipeIngredient } from './../../models/recipe';
-import { FactsheetComponent } from './factsheet.component';
-import { Ingredient } from './../../models/ingredient';
+import { IngredientActions } from '../../../actions/ingredient-action';
+import { AppState } from '../../../models/app-state';
+import { RecipeActions } from '../../../actions/recipe-actions';
+import { Recipe, RecipeIngredient } from '../../../models/recipe';
+import { FactsheetComponent } from '../factsheet.component';
+import { Ingredient } from '../../../models/ingredient';
+
+declare const Typed: any;
 
 @Component({
   selector: 'search-input',
-  styles: [`
-    .boh {
-      margin-bottom: 10px;
-      padding-bottom: 45px;
-    }
-    .main-search {
-      width: 100%;
-    }
-    .progress-bar {
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-    .save-button {
-      position: absolute;
-      bottom: 18px;
-      margin-left: -20px;
-    }
-    /deep/ .mat-card-header-text {
-      width: 100%;
-    }
-  `],
-  template: `
-  <div fxLayout="row" fxLayoutAlign="center">
-    <div fxFlex="50">
-      <md-input-container align="center" class="main-search">
-        <input mdInput placeholder="Search ingredient here" #searchBox>
-      </md-input-container>
-    </div>
-  </div>
-  <div *ngIf="(ingredient$|async)?.searchTerm != ''">
-    <h2>Search results for <md-chip color="accent">{{ (ingredient$|async)?.searchTerm }}</md-chip></h2>
-    <span *ngIf="(ingredient$|async)?.loading; else listLoaded">loading...<br><br><br></span>
-    <ng-template #listLoaded>
-      <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutGap="10px" fxLayoutAlign="center">
-          <md-card
-            *ngFor="let ing of (ingredient$|async)?.details.item"
-            class="boh"
-            fxFlex="10"
-            (click)="searchIngredientDetails(ing)">
-            <md-progress-bar *ngIf="ing.loadingDetails" mode="indeterminate" class="progress-bar"></md-progress-bar>
-            <md-card-header>
-              <md-card-title>{{ ing.title }}</md-card-title>
-            </md-card-header>
-            <md-card-content>{{ ing.name }}</md-card-content>
-            <button md-mini-fab class="save-button" (click)="toggleIngredient(ing, $event)">
-              <i class="fa fa-star-o" aria-hidden="true" *ngIf="!isSaved(ing.ndbno)"></i>
-              <i class="fa fa-star" aria-hidden="true" *ngIf="isSaved(ing.ndbno)"></i>
-            </button>
-          </md-card>
-      </div>
-    </ng-template>
-  </div>
-  `
+  styleUrls: [`./search-input.component.scss`],
+  templateUrl: `./search-input.component.html`
 })
 
 export class SearchInputComponent implements OnInit {
@@ -89,7 +39,7 @@ export class SearchInputComponent implements OnInit {
       .map((res: any) => res.target.value)
       .distinctUntilChanged()
       .debounceTime(400)
-      .filter((searchStr: string) => searchStr !== '')
+      .filter((searchStr: string) => searchStr !== '' && searchStr.length > 2)
       .subscribe((searchStr: string) => {
         this.searchIngredient(searchStr);
       });
@@ -100,8 +50,31 @@ export class SearchInputComponent implements OnInit {
       .filter(res => res !== null)
       .subscribe(() => this.showIngredientDetails());
 
+    this.ingredient$.map(res => res.searchTerm)
+      .subscribe(term => {
+        if (term === '') {
+          this.initTypewriter();
+        }
+      });
+
     this.recipe$.subscribe(res => {
       this.savedIngredients = res.ingredients;
+    });
+  }
+
+  ngAfterViewInit() {
+    this.initTypewriter();
+  }
+
+  private initTypewriter(): void {
+    Typed.new('.typewriter', {
+      strings: ['tomato', 'potatoes', 'milk', 'chocolate', 'butter', 'sunflower seeds', 'olive oil', 'apple pie', 'sugar'],
+      shuffle: true,
+      loop: true,
+      showCursor: true,
+      typeSpeed: 0,
+      backDelay: 1500,
+      startDelay: 1000
     });
   }
 
@@ -119,8 +92,7 @@ export class SearchInputComponent implements OnInit {
 
   public showIngredientDetails(): void {
     this.dialog.open(FactsheetComponent, {
-      height: '400px',
-      width: '600px',
+      height: '80%'
     });
   }
 
@@ -143,5 +115,22 @@ export class SearchInputComponent implements OnInit {
         this.recipeActions.addIngredient(ingredientData)
       );
     }
+  }
+
+  public clearSearch(event: any): void {
+    event.preventDefault();
+    this.store.dispatch(
+      this.ingredientActions.clearSearch()
+    );
+    this.searchBox.nativeElement.value = '';
+    // wait until next tick
+    setTimeout(() => {
+      this.initTypewriter();
+    }, 0);
+  }
+
+  public searchSampleString(event: HTMLElement) {
+    this.searchBox.nativeElement.value = event.innerText;
+    this.searchIngredient(event.innerText);
   }
 }

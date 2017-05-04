@@ -1,0 +1,44 @@
+
+// colors
+$bg-colors: (
+  body: #55F490,
+  cta: #c7460f,
+  cta-light: #ffd740,
+  light: #fff
+);
+$primary-colors: (
+  dark: #4e5861,
+  dark-vivid: #673ab7,
+  link: #fff,
+  light: #fff
+);
+
+// buttons and containers
+%cta-light-button {
+  background-color: map-get($bg-colors, cta-light);
+  color: map-get($primary-colors, dark);
+}
+%cta-light-vivid-button {
+  background-color: map-get($bg-colors, cta-light);
+  color: map-get($primary-colors, dark-vivid);
+}
+%light-container {
+  background-color: map-get($bg-colors, light);
+  color: map-get($primary-colors, dark);
+}
+%dark-container {
+  background-color: map-get($primary-colors, dark);
+  color: map-get($bg-colors, light);
+}
+%dark-vivid-container {
+  background-color: map-get($primary-colors, dark-vivid);
+  color: map-get($bg-colors, light);
+}
+
+// misc
+%vivid-link {
+  color: map-get($primary-colors, link);
+  &:hover {
+    color: map-get($bg-colors, cta-light);
+  }
+}

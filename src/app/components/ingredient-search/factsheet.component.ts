@@ -77,8 +77,9 @@ export class FactsheetComponent implements OnInit {
   }
 
   public toggleIngredient(ingredient: any): void {
+    const name = ingredient.name.split(',')[0].toLowerCase();
     const ingredientData = {
-      name: ingredient.name,
+      name: name[0].toUpperCase() + name.slice(1),
       ndbno: ingredient.ndbno
     };
     if (this.isSaved(ingredient.ndbno)) {

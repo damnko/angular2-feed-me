@@ -6,6 +6,20 @@
 
 @import '~font-awesome/css/font-awesome.css';
 
-h1{
-  border: 1px solid red;
+@import '~animate.css/animate.css';
+
+@import './variables';
+
+body {
+  background-color: map-get($bg-colors, body);
+  margin: 0;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+}
+
+h3, h2 {
+  color: map-get($primary-colors, dark);
+}
+
+snack-bar-container.snackbar-delete {
+  background: map-get($bg-colors, cta);
 }

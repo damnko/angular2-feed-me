@@ -14,11 +14,13 @@ import { config } from './config';
     <ng-sidebar-container>
       <ng-sidebar
         [(opened)]="_opened"
-        mode="slide">
+        mode="push">
         <sidebar></sidebar>
       </ng-sidebar>
-      <toolbar></toolbar>
-      <router-outlet></router-outlet>
+      <section id="main-content">
+        <toolbar></toolbar>
+        <router-outlet></router-outlet>
+      </section>
     </ng-sidebar-container>
   `
 })

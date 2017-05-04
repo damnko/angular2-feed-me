@@ -10,15 +10,16 @@ export class IngredientService {
   public searchIngredient(searchString: string): Observable<any> {
     return this.http.get(`https://api.nal.usda.gov/ndb/search/?format=json&q=${searchString}&sort=r&max=25&offset=0&api_key=${config.usda.apiKey}`)
       .map((res) => res.json())
+      .do(a => console.log('risultato ', a))
       .map(res => res.list)
       .map(res => {
         return {
           start: res.start,
           end: res.end,
           total: res.total,
-          item: res.item.map(this.refactorIngredient)
+          item: res ? res.item.map(this.refactorIngredient) : []
         };
-      });
+      }).do(res => console.log('finale is', res));
   }
 
   private refactorIngredient(ingredient: any): any {

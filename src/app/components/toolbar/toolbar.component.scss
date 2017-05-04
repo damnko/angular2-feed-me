@@ -1,0 +1,30 @@
+@import '../../../styles/variables';
+
+.active {
+  font-weight: bold
+}
+.menu-space-filler {
+  flex: 1 1 auto;
+}
+.mat-toolbar.mat-primary {
+  background-color: map-get($primary-colors, dark);
+}
+md-toolbar {
+  position: fixed;
+  top: 0;
+
+  a {
+    @extend %vivid-link;
+  }
+
+  .toggle-toolbar-icon {
+    cursor: pointer;
+    margin-right: 20px;
+
+    i {
+      font-size: 30px;
+    }
+  }
+
+
+}
