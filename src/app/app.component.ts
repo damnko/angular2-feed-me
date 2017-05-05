@@ -1,8 +1,7 @@
-import { LayoutActions } from './actions/layout-actions';
-import { AppState } from './models/app-state';
 import { Store } from '@ngrx/store';
-import { Layout } from './models/layout';
 import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Layout, AppState } from './core/models';
+import { LayoutActions } from './core/actions';
 import { config } from './config';
 
 @Component({
