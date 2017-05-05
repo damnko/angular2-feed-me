@@ -1,11 +1,11 @@
-import { AppState } from './../../models/app-state';
+import { AppState } from '../../../models/app-state';
 import { Store } from '@ngrx/store';
-import { RecipeActions } from './../../actions/recipe-actions';
+import { RecipeActions } from '../../../actions/recipe-actions';
 import { Component, OnInit, ViewChild, ElementRef, EventEmitter, Output, Input } from '@angular/core';
 
 @Component({
-  selector: 'search-recipe-text',
-  styleUrls: ['./search-text.component.scss'],
+  selector: 'recipe-result-text',
+  styleUrls: ['./recipe-result-text.component.scss'],
   template: `
     <h3>
       <span *ngIf="resultsFound">Recipe search results for</span>
@@ -16,7 +16,7 @@ import { Component, OnInit, ViewChild, ElementRef, EventEmitter, Output, Input }
   `
 })
 
-export class SearchTextComponent {
+export class RecipeResultTextComponent {
   public editingSearch: boolean = false;
   @Input() public query: string = '';
   @Input() public resultsFound: boolean = true;

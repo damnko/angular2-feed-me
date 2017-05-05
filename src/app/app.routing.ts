@@ -1,4 +1,3 @@
-import { RecipesComponent } from './components';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -8,7 +7,7 @@ import { LoginComponent } from './components';
 export const routes: Routes = [
   { path: '', component: IngredientSearchComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'recipes', component: RecipesComponent }
+  { path: 'recipes', loadChildren: './components/recipes/recipes.module#RecipesModule' },
 ];
 
 @NgModule({

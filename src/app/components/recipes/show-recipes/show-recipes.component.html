@@ -5,18 +5,18 @@
 </div>
 <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutGap="10px" fxLayoutAlign="left" class="recipe-wrapper">
   <div fxFlex="100" *ngIf="(recipes$|async)?.recipes.hits && (recipes$|async)?.recipes.hits.length === 0 && !(recipes$|async)?.loadingRecipes">
-    <search-recipe-text
+    <recipe-result-text
        [resultsFound]="false"
       [query]="query"
       (onSearchRecipe)="searchRecipe($event)">
-    </search-recipe-text>
+    </recipe-result-text>
   </div>
   <div fxFlex="100" *ngIf="(recipes$|async)?.recipes.hits && (recipes$|async)?.recipes.hits.length > 0">
-    <search-recipe-text
+    <recipe-result-text
       [query]="query"
       [resultsFound]="true"
       (onSearchRecipe)="searchRecipe($event)">
-    </search-recipe-text>
+    </recipe-result-text>
   </div>
   <md-card
     *ngFor="let recipe of (recipes$|async)?.recipes.hits"

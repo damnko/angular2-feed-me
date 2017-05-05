@@ -1,19 +1,19 @@
-import { RecipeActions } from '../../actions/recipe-actions';
-import { Recipe } from '../../models/recipe';
+import { RecipeActions } from '../../../actions/recipe-actions';
+import { Recipe } from '../../../models/recipe';
 import { Observable } from 'rxjs/Observable';
-import { AppState } from '../../models/app-state';
+import { AppState } from '../../../models/app-state';
 import { Store } from '@ngrx/store';
 import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
 @Component({
-  selector: 'recipes',
-  styleUrls: ['./recipes.component.scss'],
+  selector: 'show-recipes',
+  styleUrls: ['./show-recipes.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: `./recipes.component.html`
+  templateUrl: `./show-recipes.component.html`
 })
 
-export class RecipesComponent implements OnInit {
+export class ShowRecipesComponent implements OnInit {
   public recipes$: Observable<Recipe>;
   public query: string = '';
 
