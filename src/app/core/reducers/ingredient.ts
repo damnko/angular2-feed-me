@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { Ingredient } from '../models/ingredient';
 
+import { Ingredient } from '../models';
 import {
   SET_LOADING,
   SEARCH_INGREDIENT,

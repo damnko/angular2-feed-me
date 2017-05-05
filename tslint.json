@@ -17,6 +17,9 @@
     "import-destructuring-spacing": true,
     "invoke-injectable": true,
     "no-access-missing-member": true,
+    "member-access": [
+      false
+    ],
     "member-ordering": [
       false
     ],

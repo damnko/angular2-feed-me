@@ -1,6 +1,7 @@
-import { IngredientSearchComponent } from './ingredient-search.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+
+import { IngredientSearchComponent } from './ingredient-search.component';
 
 const routes: Routes = [
   { path: '', component: IngredientSearchComponent },

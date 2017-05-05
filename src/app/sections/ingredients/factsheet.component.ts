@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
 import { Recipe, RecipeIngredient, Ingredient, AppState } from '../../core/models';
-import { RecipeActions } from '../../core/actions/recipe-actions';
+import { RecipeActions } from '../../core/actions';
 
 @Component({
   selector: 'factsheet',
@@ -35,23 +35,23 @@ import { RecipeActions } from '../../core/actions/recipe-actions';
 })
 
 export class FactsheetComponent implements OnInit {
-  public ingredient$: Observable<Ingredient>;
-  public recipe$: Observable<Recipe>;
-  private savedIngredients: Map<string, RecipeIngredient> = new Map();
-  public nutrients: any[];
-  public columns: any = [{
+  ingredient$: Observable<Ingredient>;
+  recipe$: Observable<Recipe>;
+  nutrients: any[];
+  columns: any = [{
     prop: 'name'
   }, {
     prop: 'value'
   }];
-  public currentIngredient: any;
+  currentIngredient: any;
+  private savedIngredients: Map<string, RecipeIngredient> = new Map();
 
   constructor(
     private store: Store<AppState>,
     private recipeActions: RecipeActions
-  ) {}
+  ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.ingredient$ = this.store.select('ingredient');
     this.ingredient$
       .do(ing => this.currentIngredient = ing.selectedIngredient.report.food)
@@ -70,11 +70,11 @@ export class FactsheetComponent implements OnInit {
     });
   }
 
-  public isSaved(ndbno: string): boolean {
+  isSaved(ndbno: string): boolean {
     return this.savedIngredients.has(ndbno);
   }
 
-  public toggleIngredient(ingredient: any): void {
+  toggleIngredient(ingredient: any): void {
     const name = ingredient.name.split(',')[0].toLowerCase();
     const ingredientData = {
       name: name[0].toUpperCase() + name.slice(1),

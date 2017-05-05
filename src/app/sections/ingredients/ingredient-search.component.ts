@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+
 import { Ingredient, AppState } from '../../core/models';
 
 @Component({
@@ -29,13 +30,11 @@ import { Ingredient, AppState } from '../../core/models';
 })
 
 export class IngredientSearchComponent implements OnInit {
-  public ingredient$: Observable<Ingredient>;
+  ingredient$: Observable<Ingredient>;
 
-  constructor(
-    private store: Store<AppState>
-  ) {}
+  constructor(private store: Store<AppState>) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.ingredient$ = this.store.select('ingredient');
   }
 

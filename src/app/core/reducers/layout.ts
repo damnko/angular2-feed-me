@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
-import { OPEN_SIDEBAR, TOGGLE_SIDEBAR } from './../actions/layout-actions';
-import { Layout } from './../models/layout';
+
+import { OPEN_SIDEBAR, TOGGLE_SIDEBAR } from '../actions';
+import { Layout } from '../models';
 
 export function layout(state: Layout, action: Action): Layout {
   switch (action.type) {

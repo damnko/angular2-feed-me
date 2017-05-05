@@ -1,19 +1,17 @@
 import { Store } from '@ngrx/store';
-import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+
 import { Layout, AppState } from './core/models';
 import { LayoutActions } from './core/actions';
 import { config } from './config';
 
 @Component({
   selector: 'app',
-  styleUrls: [
-    `./app.component.scss`
-  ],
-  encapsulation: ViewEncapsulation.None,
+  styleUrls: [`./app.component.scss`],
   template: `
     <ng-sidebar-container>
       <ng-sidebar
-        [(opened)]="_opened"
+        [(opened)]="sidebarOpened"
         mode="push">
         <sidebar></sidebar>
       </ng-sidebar>
@@ -24,16 +22,15 @@ import { config } from './config';
     </ng-sidebar-container>
   `
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  sidebarOpened: boolean = false;
 
   constructor(
     private store: Store<AppState>,
     private layoutActions: LayoutActions
   ) { }
 
-  public _opened: boolean = false;
-
-  public ngOnInit() {
+  ngOnInit() {
     this.store.select('layout')
       .map((layout: Layout) => layout.sidebarOpened)
       .subscribe(sidebarOpened => {
@@ -47,7 +44,7 @@ export class AppComponent {
     }, 1000);
   }
 
-  public openSidebar(open: boolean): void {
-      this._opened = open;
+  openSidebar(open: boolean): void {
+      this.sidebarOpened = open;
   }
 }

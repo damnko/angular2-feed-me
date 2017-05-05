@@ -6,14 +6,15 @@ export const OPEN_SIDEBAR = 'OPEN_SIDEBAR',
 
 @Injectable()
 export class LayoutActions {
-  public openSidebar(openIt: boolean): Action {
+
+  openSidebar(openIt: boolean): Action {
     return {
       type: OPEN_SIDEBAR,
       payload: openIt
     };
   }
 
-  public toggleSidebar(): Action {
+  toggleSidebar(): Action {
     return {
       type: TOGGLE_SIDEBAR
     };

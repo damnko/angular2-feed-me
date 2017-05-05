@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
+
 import { RecipeActions } from '../../../core/actions';
 import { AppState, Recipe } from '../../../core/models';
 
@@ -13,11 +14,11 @@ import { AppState, Recipe } from '../../../core/models';
 })
 
 export class ShowRecipesComponent implements OnInit {
-  public recipes$: Observable<Recipe>;
-  public query: string = '';
+  recipes$: Observable<Recipe>;
+  query: string = '';
 
-  public uno: any;
-  public due: any;
+  uno: any;
+  due: any;
 
   constructor(
     private store: Store<AppState>,
@@ -26,7 +27,7 @@ export class ShowRecipesComponent implements OnInit {
     private router: Router
   ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.recipes$ = this.store.select('recipe');
 
     this.uno = this.route.queryParams
@@ -49,7 +50,6 @@ export class ShowRecipesComponent implements OnInit {
 
     this.due = this.recipes$.map(recipes => recipes.selectedRecipe)
       .subscribe(selectedRecipe => {
-        console.log('selected recipe is', selectedRecipe, this.query);
         if (selectedRecipe !== undefined) {
           const q = this.query;
           const s = selectedRecipe;
@@ -64,17 +64,17 @@ export class ShowRecipesComponent implements OnInit {
       });
   }
 
-  public isSelected(name: string, recipe: any): boolean {
+  isSelected(name: string, recipe: any): boolean {
     return name === recipe.name;
   }
 
-  public selectRecipe(name: string): void {
+  selectRecipe(name: string): void {
     this.store.dispatch(
       this.recipeActions.selectRecipe(name)
     );
   }
 
-  public searchRecipe(searchText: string): void {
+  searchRecipe(searchText: string): void {
     this.query = searchText;
     this.store.dispatch(
       this.recipeActions.searchRecipe(searchText)

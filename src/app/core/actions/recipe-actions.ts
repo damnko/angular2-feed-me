@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import { Injectable } from '@angular/core';
-import { RecipeIngredient } from './../models/recipe';
+import { RecipeIngredient } from '../models/recipe';
 
 export const SET_LOADING_RECIPE = 'SET_LOADING_RECIPE',
              ADD_INGREDIENT = 'ADD_INGREDIENT',
@@ -13,55 +13,56 @@ export const SET_LOADING_RECIPE = 'SET_LOADING_RECIPE',
 
 @Injectable()
 export class RecipeActions {
-  public setLoading(isLoading: boolean): Action {
+
+  setLoading(isLoading: boolean): Action {
     return {
       type: SET_LOADING_RECIPE,
       payload: isLoading
     };
   }
 
-  public addIngredient(ingredient: RecipeIngredient): Action {
+  addIngredient(ingredient: RecipeIngredient): Action {
     return {
       type: ADD_INGREDIENT,
       payload: ingredient
     };
   }
 
-  public removeIngredient(ndbno: string): Action {
+  removeIngredient(ndbno: string): Action {
     return {
       type: REMOVE_INGREDIENT,
       payload: ndbno
     };
   }
 
-  public clearIngredientList(): Action {
+  clearIngredientList(): Action {
     return {
       type: CLEAR_INGREDIENT_LIST
     };
   }
 
-  public searchRecipe(query: string): Action {
+  searchRecipe(query: string): Action {
     return {
       type: SEARCH_RECIPE,
       payload: query
     };
   }
 
-  public searchRecipeSuccess(data: any): Action {
+  searchRecipeSuccess(data: any): Action {
     return {
       type: SEARCH_RECIPE_SUCCESS,
       payload: data
     };
   }
 
-  public searchRecipeFailed(error: string): Action {
+  searchRecipeFailed(error: string): Action {
     return {
       type: SEARCH_RECIPE_FAILED,
       payload: error
     };
   }
 
-  public selectRecipe(id: string): Action {
+  selectRecipe(id: string): Action {
     return {
       type: SELECT_RECIPE,
       payload: id

@@ -1,6 +1,6 @@
 @import '../styles/variables';
 
-.ng-sidebar {
+/deep/ .ng-sidebar {
   width: 250px;
   background-color: map-get($primary-colors, dark-vivid) !important;
 

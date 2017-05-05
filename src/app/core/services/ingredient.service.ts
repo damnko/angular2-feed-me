@@ -1,16 +1,26 @@
 import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+
 import { config } from '../../config';
 
 @Injectable()
 export class IngredientService {
   constructor(private http: Http) { }
 
-  public searchIngredient(searchString: string): Observable<any> {
-    return this.http.get(`https://api.nal.usda.gov/ndb/search/?format=json&q=${searchString}&sort=r&max=25&offset=0&api_key=${config.usda.apiKey}`)
+  searchIngredient(searchString: string): Observable<any> {
+    const baseUrl = 'https://api.nal.usda.gov/ndb/search/';
+    const urlParams = [
+      `format=json`,
+      `q=${searchString}`,
+      `sort=r`,
+      `max=25`,
+      `offset=0`,
+      `api_key=${config.usda.apiKey}`
+    ].join('&');
+
+    return this.http.get(`${baseUrl}?${urlParams}`)
       .map((res) => res.json())
-      .do(a => console.log('risultato ', a))
       .map(res => res.list)
       .map(res => {
         return {
@@ -19,7 +29,18 @@ export class IngredientService {
           total: res.total,
           item: res ? res.item.map(this.refactorIngredient) : []
         };
-      }).do(res => console.log('finale is', res));
+      });
+  }
+
+  searchIngredientDetails(ndbno: string): Observable<any> {
+    const baseUrl = 'https://api.nal.usda.gov/ndb/reports/';
+    const urlParams = [
+      `ndbno=${ndbno}`,
+      `api_key=${config.usda.apiKey}`
+    ].join('&');
+
+    return this.http.get(`${baseUrl}?${urlParams}`)
+      .map(res => res.json());
   }
 
   private refactorIngredient(ingredient: any): any {
@@ -34,10 +55,5 @@ export class IngredientService {
       ndbno: ingredient.ndbno,
       loadingDetails: false
     };
-  }
-
-  public searchIngredientDetails(ndbno: string): Observable<any> {
-    return this.http.get(`https://api.nal.usda.gov/ndb/reports/?ndbno=${ndbno}&api_key=${config.usda.apiKey}`)
-      .map(res => res.json());
   }
 }

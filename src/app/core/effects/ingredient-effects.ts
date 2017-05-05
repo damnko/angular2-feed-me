@@ -5,13 +5,13 @@ import { MdSnackBar } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 
 import { AppState, Layout } from '../models';
+import { IngredientService } from '../services';
 import {
   IngredientActions,
   LayoutActions,
   SEARCH_INGREDIENT, SEARCH_INGREDIENT_DETAILS,
   ADD_INGREDIENT, REMOVE_INGREDIENT
-} from './../actions';
-import { IngredientService } from './../services/ingredient.service';
+} from '../actions';
 
 @Injectable()
 export class IngredientEffects {
@@ -25,7 +25,7 @@ export class IngredientEffects {
   ) {}
 
   @Effect()
-  public searchIngredient$: Observable<Action> = this.actions.ofType(SEARCH_INGREDIENT)
+  searchIngredient$: Observable<Action> = this.actions.ofType(SEARCH_INGREDIENT)
     .do(() => this.store.dispatch(this.ingredientActions.setLoading(true)))
     .map((action: Action) => action.payload)
     .switchMap((searchTerm: string) => {
@@ -36,7 +36,8 @@ export class IngredientEffects {
     });
 
   @Effect()
-  public searchIngredientDetails$: Observable<Action> = this.actions.ofType(SEARCH_INGREDIENT_DETAILS)
+  searchIngredientDetails$: Observable<Action> = this.actions
+    .ofType(SEARCH_INGREDIENT_DETAILS)
     .do(() => this.store.dispatch(this.ingredientActions.setLoadingDetails(true)))
     .map((action: Action) => action.payload)
     .switchMap((ndbno: string) => {
@@ -47,14 +48,19 @@ export class IngredientEffects {
     });
 
   @Effect({ dispatch: false })
-  public showAddSnackbar$ = this.actions.ofType(ADD_INGREDIENT)
+  showAddSnackbar$ = this.actions
+    .ofType(ADD_INGREDIENT)
     .withLatestFrom(this.store.select('layout'))
     .map(([action, layout]) => layout)
     .do((layoutState: Layout) => {
       if (layoutState.sidebarOpened) {
         this.snackBar.open('Item added to ingredients list', null, { duration: 1500 });
       } else {
-        const ref = this.snackBar.open('Item added to ingredients list', 'SHOW LIST', { duration: 3000 });
+        const ref = this.snackBar.open(
+          'Item added to ingredients list',
+          'SHOW LIST',
+          { duration: 3000 }
+        );
         ref.onAction().subscribe(() => {
           this.store.dispatch(this.layoutActions.openSidebar(true));
         });
@@ -62,7 +68,7 @@ export class IngredientEffects {
     }).switchMap(() => Observable.of(undefined));
 
   @Effect({ dispatch: false })
-  public showDeleteSnackbar$ = this.actions.ofType(REMOVE_INGREDIENT)
+  showDeleteSnackbar$ = this.actions.ofType(REMOVE_INGREDIENT)
     .do(() => this.snackBar.open('Item removed from ingredients list', null, {
       duration: 1500,
       extraClasses: ['snackbar-delete']

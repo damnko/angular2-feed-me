@@ -35,6 +35,10 @@
 .ingredient-card {
   @extend %ingredient-card;
 
+  &.isSaved {
+    @extend %dark-vivid-container;
+  }
+
   .progress-bar {
     position: absolute;
     left: 0;

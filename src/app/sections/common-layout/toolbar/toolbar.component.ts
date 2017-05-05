@@ -22,18 +22,18 @@ import { LayoutActions } from '../../../core/actions/layout-actions';
 })
 
 export class ToolbarComponent implements OnInit {
-  public layout$: Observable<Layout>;
+  layout$: Observable<Layout>;
 
   constructor(
     private store: Store<AppState>,
     private layoutActions: LayoutActions
-  ) {}
+  ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.layout$ = this.store.select('layout');
   }
 
-  public toggleSide(event: any) {
+  toggleSide(event: any) {
     event.preventDefault();
     this.store.dispatch(
       this.layoutActions.toggleSidebar()

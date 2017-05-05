@@ -27,8 +27,8 @@
       <md-card
         *ngFor="let ing of (ingredient$|async)?.details.item"
         class="ingredient-card"
-        [class.isSaved]="isSaved(ing.ndbno)"
         fxFlex="10"
+        [class.isSaved]="isSaved(ing.ndbno)"
         (click)="searchIngredientDetails(ing)">
         <md-progress-bar *ngIf="ing.loadingDetails" mode="indeterminate" class="progress-bar"></md-progress-bar>
         <md-card-header>

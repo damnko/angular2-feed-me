@@ -2,12 +2,11 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 
-
 import { ingredient, recipe, layout } from './reducers';
 import { LayoutActions, RecipeActions, IngredientActions } from './actions';
 import { RecipeEffects, IngredientEffects } from './effects';
 import { RecipeService, IngredientService } from './services';
-import { initialIngredient, initialRecipe, initialLayout } from './models/app-state';
+import { initialIngredient, initialRecipe, initialLayout } from './models';
 
 const NGRX_ACTIONS = [
   LayoutActions,

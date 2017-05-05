@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Action, Store } from '@ngrx/store';
-import { AppState } from './../models/app-state';
 
 export const SET_LOADING = 'SET_LOADING',
              SEARCH_INGREDIENT = 'SEARCH_INGREDIENT',
@@ -14,64 +13,63 @@ export const SET_LOADING = 'SET_LOADING',
 
 @Injectable()
 export class IngredientActions {
-  constructor(private store: Store<AppState>) {}
 
-  public searchIngredient(name: string): Action {
+  searchIngredient(name: string): Action {
     return {
       type: SEARCH_INGREDIENT,
       payload: name
     };
   }
 
-  public searchSuccess(data: any): Action {
+  searchSuccess(data: any): Action {
     return {
       type: SEARCH_INGREDIENT_SUCCESS,
       payload: data
     };
   }
 
-  public searchFailed(error: string): Action {
+  searchFailed(error: string): Action {
     return {
       type: SEARCH_INGREDIENT_FAIL,
       payload: error
     };
   }
 
-  public clearSearch(): Action {
+  clearSearch(): Action {
     return {
       type: CLEAR_SEARCH
     };
   }
 
-  public setLoading(isLoading: boolean): Action {
+  setLoading(isLoading: boolean): Action {
     return {
       type: SET_LOADING,
       payload: isLoading
     };
   }
 
-  public setLoadingDetails(isLoading: boolean): Action {
+  setLoadingDetails(isLoading: boolean): Action {
     return {
       type: SET_LOADING_DETAILS,
       payload: isLoading
     };
   }
 
-  public searchIngredientDetails(ndbno: string): Action {
+  searchIngredientDetails(ndbno: string): Action {
     return {
       type: SEARCH_INGREDIENT_DETAILS,
       payload: ndbno
     };
   }
 
-  public searchDetailsSuccess(data: any): Action {
+  searchDetailsSuccess(data: any): Action {
     return {
       type: SEARCH_INGREDIENT_DETAILS_SUCCESS,
       payload: data
     };
   }
 
-  public searchDetailsFailed(error: string): Action {
+  searchDetailsFailed(error: string): Action {
     return {
       type: SEARCH_INGREDIENT_DETAILS_FAILED,
       payload: error

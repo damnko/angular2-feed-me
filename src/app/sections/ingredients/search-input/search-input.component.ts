@@ -1,13 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { MdDialog, MdDialogRef } from '@angular/material';
+import { MdDialog } from '@angular/material';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  ViewEncapsulation,
+  AfterViewInit
+} from '@angular/core';
 
 import { IngredientActions, RecipeActions } from '../../../core/actions';
 import { AppState, Recipe, RecipeIngredient, Ingredient } from '../../../core/models';
 import { FactsheetComponent } from '../factsheet.component';
-
-declare const Typed: any;
 
 @Component({
   selector: 'search-input',
@@ -15,20 +20,20 @@ declare const Typed: any;
   templateUrl: `./search-input.component.html`
 })
 
-export class SearchInputComponent implements OnInit {
-  public ingredient$: Observable<Ingredient>;
-  public recipe$: Observable<Recipe>;
+export class SearchInputComponent implements OnInit, AfterViewInit {
+  ingredient$: Observable<Ingredient>;
+  recipe$: Observable<Recipe>;
+  @ViewChild('searchBox') searchBox: ElementRef;
   private savedIngredients: Map<string, RecipeIngredient> = new Map();
-  @ViewChild('searchBox') public searchBox: ElementRef;
 
   constructor(
     private store: Store<AppState>,
     private ingredientActions: IngredientActions,
     private dialog: MdDialog,
     private recipeActions: RecipeActions
-  ) {}
+  ) { }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.ingredient$ = this.store.select('ingredient');
     this.recipe$ = this.store.select('recipe');
 
@@ -65,7 +70,17 @@ export class SearchInputComponent implements OnInit {
 
   private initTypewriter(): void {
     Typed.new('.typewriter', {
-      strings: ['tomato', 'potatoes', 'milk', 'chocolate', 'butter', 'sunflower seeds', 'olive oil', 'apple pie', 'sugar'],
+      strings: [
+        'tomato',
+        'potatoes',
+        'milk',
+        'chocolate',
+        'butter',
+        'sunflower seeds',
+        'olive oil',
+        'apple pie',
+        'sugar'
+      ],
       shuffle: true,
       loop: true,
       showCursor: true,
@@ -75,29 +90,29 @@ export class SearchInputComponent implements OnInit {
     });
   }
 
-  public searchIngredient(searchString: string): void {
+  searchIngredient(searchString: string): void {
     this.store.dispatch(
       this.ingredientActions.searchIngredient(searchString)
     );
   }
 
-  public searchIngredientDetails(ingredient: any): void {
+  searchIngredientDetails(ingredient: any): void {
     this.store.dispatch(
       this.ingredientActions.searchIngredientDetails(ingredient.ndbno)
     );
   }
 
-  public showIngredientDetails(): void {
+  showIngredientDetails(): void {
     this.dialog.open(FactsheetComponent, {
       height: '80%'
     });
   }
 
-  public isSaved(ndbno: string): boolean {
+  isSaved(ndbno: string): boolean {
     return this.savedIngredients.has(ndbno);
   }
 
-  public toggleIngredient(ingredient: any, event: any): void {
+  toggleIngredient(ingredient: any, event: any): void {
     event.stopPropagation();
     const ingredientData = {
       name: ingredient.title,
@@ -114,7 +129,7 @@ export class SearchInputComponent implements OnInit {
     }
   }
 
-  public clearSearch(event: any): void {
+  clearSearch(event: any): void {
     event.preventDefault();
     this.store.dispatch(
       this.ingredientActions.clearSearch()
@@ -126,7 +141,7 @@ export class SearchInputComponent implements OnInit {
     }, 0);
   }
 
-  public searchSampleString(event: HTMLElement) {
+  searchSampleString(event: HTMLElement) {
     this.searchBox.nativeElement.value = event.innerText;
     this.searchIngredient(event.innerText);
   }
