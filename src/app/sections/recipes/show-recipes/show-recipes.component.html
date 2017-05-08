@@ -1,17 +1,17 @@
 <div fxLayout="row" fxLayoutAlign="center">
   <div fxFlex="100" fxLayoutAlign="center">
-    <loading-message [searchString]="query" *ngIf="(recipes$|async)?.loadingRecipes"></loading-message>
+    <loading-message [searchString]="query" *ngIf="(recipe.loading$|async)"></loading-message>
   </div>
 </div>
 <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutGap="10px" fxLayoutAlign="left" class="recipe-wrapper">
-  <div fxFlex="100" *ngIf="(recipes$|async)?.recipes.hits && (recipes$|async)?.recipes.hits.length === 0 && !(recipes$|async)?.loadingRecipes">
+  <div fxFlex="100" *ngIf="(recipe.hits$|async) && (recipe.length$|async) === 0 && !(recipe.loading$|async)">
     <recipe-result-text
        [resultsFound]="false"
       [query]="query"
       (onSearchRecipe)="searchRecipe($event)">
     </recipe-result-text>
   </div>
-  <div fxFlex="100" *ngIf="(recipes$|async)?.recipes.hits && (recipes$|async)?.recipes.hits.length > 0">
+  <div fxFlex="100" *ngIf="(recipe.hits$|async) && (recipe.length$|async) > 0">
     <recipe-result-text
       [query]="query"
       [resultsFound]="true"
@@ -19,21 +19,21 @@
     </recipe-result-text>
   </div>
   <md-card
-    *ngFor="let recipe of (recipes$|async)?.recipes.hits"
+    *ngFor="let r of (recipe.hits$|async)"
     class="recipe-card"
     fxFlex="100"
-    [class.selected]="isSelected((recipes$|async)?.selectedRecipe, recipe)"
-    [fxFlex.gt-sm]="isSelected((recipes$|async)?.selectedRecipe, recipe) ? 27: 25"
-    [fxFlex.gt-md]="isSelected((recipes$|async)?.selectedRecipe, recipe) ? 18: 16"
-    (click)="selectRecipe(recipe.name)">
+    [class.selected]="isSelected((recipe.selectedRecipe$|async), r)"
+    [fxFlex.gt-sm]="isSelected((recipe.selectedRecipe$|async), r) ? 27: 25"
+    [fxFlex.gt-md]="isSelected((recipe.selectedRecipe$|async), r) ? 18: 16"
+    (click)="selectRecipe(r.name)">
     <md-card-header>
-      <md-card-title>{{ recipe.name }}</md-card-title>
+      <md-card-title>{{ r.name }}</md-card-title>
     </md-card-header>
-    <img md-card-image [src]="recipe.img">
+    <img md-card-image [src]="r.img">
     <md-card-content>
-      <div>{{ recipe.ingredients.join(', ') }}</div>
+      <div>{{ r.ingredients.join(', ') }}</div>
       <h5>Health labels:</h5>
-      <span class="recipe-tag" *ngFor="let label of recipe.labels">{{ label }}</span>
+      <span class="recipe-tag" *ngFor="let label of r.labels">{{ label }}</span>
     </md-card-content>
   </md-card>
 </div>

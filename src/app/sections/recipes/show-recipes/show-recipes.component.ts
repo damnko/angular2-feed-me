@@ -1,8 +1,9 @@
-import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 
+import { RecipeService } from '../../../core/services';
 import { RecipeActions } from '../../../core/actions';
 import { AppState, Recipe } from '../../../core/models';
 
@@ -13,55 +14,23 @@ import { AppState, Recipe } from '../../../core/models';
   templateUrl: `./show-recipes.component.html`
 })
 
-export class ShowRecipesComponent implements OnInit {
-  recipes$: Observable<Recipe>;
+export class ShowRecipesComponent implements OnInit, OnDestroy {
   query: string = '';
-
-  uno: any;
-  due: any;
+  updateUrlParams$: Subscription;
 
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,
     private recipeActions: RecipeActions,
-    private router: Router
+    private router: Router,
+    public recipe: RecipeService
   ) { }
 
   ngOnInit() {
-    this.recipes$ = this.store.select('recipe');
+    this.checkQueryParams();
 
-    this.uno = this.route.queryParams
-      .map(params => {
-        this.query = params['q'];
-        return { q: params['q'], s: params['s'] };
-      }).withLatestFrom(this.store.select('recipe'))
-      .subscribe(([query, recipe]: [any, Recipe]) => {
-        // trigger search if arriving here from direct link
-        if (query.q !== recipe.recipes.query) {
-          this.store.dispatch(
-            this.recipeActions.searchRecipe(query.q)
-          );
-        }
-        // trigger selected recipe if arriving here from direct link
-        if (query.s !== recipe.selectedRecipe) {
-          this.selectRecipe(query.s);
-        }
-      });
-
-    this.due = this.recipes$.map(recipes => recipes.selectedRecipe)
-      .subscribe(selectedRecipe => {
-        if (selectedRecipe !== undefined) {
-          const q = this.query;
-          const s = selectedRecipe;
-          const navExtras: NavigationExtras = {
-            queryParams: (!selectedRecipe) ? { q } : { q, s },
-            relativeTo: this.route,
-            // skipLocationChange: true,
-            // queryParamsHandling: 'merge',
-          };
-          this.router.navigate(['.'], navExtras);
-        }
-      });
+    this.updateUrlParams$ = this.recipe.updateUrlParams(this.query, this.route)
+      .subscribe((navExtras: NavigationExtras) => this.router.navigate(['.'], navExtras));
   }
 
   isSelected(name: string, recipe: any): boolean {
@@ -82,7 +51,27 @@ export class ShowRecipesComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.uno.unsubscribe();
-    this.due.unsubscribe();
+    this.updateUrlParams$.unsubscribe();
+  }
+
+  private checkQueryParams(): void {
+    this.route.queryParams
+      .map(params => {
+        this.query = params['q'];
+        return { q: params['q'], s: params['s'] };
+      }).withLatestFrom(this.store.select('recipe'))
+      .first()
+      .subscribe(([query, recipe]: [any, Recipe]) => {
+        // trigger search if arriving here from direct link
+        if (query.q !== recipe.recipes.query) {
+          this.store.dispatch(
+            this.recipeActions.searchRecipe(query.q)
+          );
+        }
+        // trigger selected recipe if arriving here from direct link
+        if (query.s !== recipe.selectedRecipe) {
+          this.selectRecipe(query.s);
+        }
+      });
   }
 }

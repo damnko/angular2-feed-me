@@ -1,9 +1,10 @@
-import { AppState } from './../models/app-state';
+import { NavigationExtras, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 
+import { AppState } from './../models/app-state';
 import { config } from '../../config';
 import { Ingredients, Recipe } from '../models';
 import {
@@ -11,6 +12,9 @@ import {
   getRecipeLoading,
   getRecipeState,
   getSelectedIngredient,
+  getSelectedRecipe,
+  getRecipeHits,
+  getRecipeLength
 } from '../selectors';
 
 @Injectable()
@@ -19,6 +23,9 @@ export class RecipeService {
   ingredients$: Observable<Ingredients>;
   loading$: Observable<boolean>;
   selectedIngredient$: Observable<string>;
+  selectedRecipe$: Observable<string>;
+  hits$: Observable<any>;
+  length$: Observable<number>;
 
   constructor(
     private http: Http,
@@ -28,6 +35,9 @@ export class RecipeService {
     this.ingredients$ = getRecipeIngredients(store);
     this.loading$ = getRecipeLoading(store);
     this.selectedIngredient$ = getSelectedIngredient(store);
+    this.selectedRecipe$ = getSelectedRecipe(store);
+    this.hits$ = getRecipeHits(store);
+    this.length$ = getRecipeLength(store);
   }
 
   getAllIngredients$(): Observable<string[]> {
@@ -71,5 +81,21 @@ export class RecipeService {
     return this.ingredients$
       .map(i => i.has(ndbno))
       .distinctUntilChanged();
+  }
+
+  updateUrlParams(query: string, route: ActivatedRoute): Observable<NavigationExtras> {
+    return this.selectedRecipe$
+      .filter(recipe => recipe !== undefined)
+      .map(recipe => {
+        const q = query;
+        const s = recipe;
+        const navExtras: NavigationExtras = {
+          queryParams: !recipe ? { q } : { q, s },
+          relativeTo: route,
+          // skipLocationChange: true,
+          // queryParamsHandling: 'merge',
+        };
+        return navExtras;
+      });
   }
 }

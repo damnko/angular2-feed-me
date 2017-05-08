@@ -10,12 +10,30 @@ export function getRecipeState(store$: Store<AppState>): Observable<Recipe> {
 
 export function getRecipeIngredients(store$: Store<AppState>): Observable<Ingredients> {
   return store$.let(getRecipeState)
-    .map((recipeState: Recipe) => recipeState.ingredients)
+    .map(recipeState => recipeState.ingredients)
     .distinctUntilChanged();
 }
 
 export function getRecipeLoading(store$: Store<AppState>): Observable<boolean> {
   return store$.let(getRecipeState)
-    .map((recipeState: Recipe) => recipeState.loadingRecipes)
+    .map(recipeState => recipeState.loadingRecipes)
+    .distinctUntilChanged();
+}
+
+export function getSelectedRecipe(store$: Store<AppState>): Observable<string> {
+  return store$.let(getRecipeState)
+    .map(recipeState => recipeState.selectedRecipe)
+    .distinctUntilChanged();
+}
+
+export function getRecipeHits(store$: Store<AppState>): Observable<any> {
+  return store$.let(getRecipeState)
+    .map(recipeState => recipeState.recipes.hits)
+    .distinctUntilChanged();
+}
+
+export function getRecipeLength(store$: Store<AppState>): Observable<number> {
+  return store$.let(getRecipeState)
+    .map(recipeState => recipeState.recipes.hits.length)
     .distinctUntilChanged();
 }
