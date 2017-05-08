@@ -21,8 +21,10 @@
   <md-card
     *ngFor="let recipe of (recipes$|async)?.recipes.hits"
     class="recipe-card"
+    fxFlex="100"
     [class.selected]="isSelected((recipes$|async)?.selectedRecipe, recipe)"
-    [fxFlex]="isSelected((recipes$|async)?.selectedRecipe, recipe) ? 18: 16"
+    [fxFlex.gt-sm]="isSelected((recipes$|async)?.selectedRecipe, recipe) ? 27: 25"
+    [fxFlex.gt-md]="isSelected((recipes$|async)?.selectedRecipe, recipe) ? 18: 16"
     (click)="selectRecipe(recipe.name)">
     <md-card-header>
       <md-card-title>{{ recipe.name }}</md-card-title>

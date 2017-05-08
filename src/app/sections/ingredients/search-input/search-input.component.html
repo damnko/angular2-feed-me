@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="center">
-  <div fxFlex="50">
+  <div fxFlex="100" fxFlex.gt-sm="50">
     <md-input-container align="center" class="main-search">
       <input mdInput placeholder="Search ingredient here" #searchBox>
     </md-input-container>
@@ -23,14 +23,19 @@
         </span>
       </h2>
     </div>
-    <div *ngIf="ingredient.error$ | async" fxFlex="50" fxLayoutAlign="center">
+    <div *ngIf="ingredient.error$ | async"
+      fxLayoutAlign="center"
+      fxFlex="100"
+      fxFlex.gt-sm="50">
       No ingredient found by the name of {{ ingredient.searchTerm$ | async }}
     </div>
     <div *ngIf="ingredient.details$ | async" fxFlex="100" fxLayoutWrap="wrap" fxLayoutAlign="center" fxLayoutGap="10px">
       <md-card
         *ngFor="let ing of (ingredient.details$|async)?.item"
         class="ingredient-card"
-        fxFlex="10"
+        fxFlex="100"
+        fxFlex.gt-xs="30"
+        fxFlex.gt-md="15"
         [class.isSaved]="recipe.isIngredientSaved$(ing.ndbno) | async"
         (click)="searchIngredientDetails(ing)">
         <md-progress-bar *ngIf="ing.loadingDetails" mode="indeterminate" class="progress-bar"></md-progress-bar>
