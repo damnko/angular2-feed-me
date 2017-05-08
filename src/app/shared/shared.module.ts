@@ -39,6 +39,9 @@ const ANGULAR_MATERIAL_COMPONENTS = [
     FlexLayoutModule,
     NgxDatatableModule
   ],
+  declarations: [
+    LoadingComponent
+  ],
   exports: [
     ...ANGULAR_MATERIAL_COMPONENTS,
     FlexLayoutModule,
@@ -46,9 +49,6 @@ const ANGULAR_MATERIAL_COMPONENTS = [
     LoadingComponent,
     CommonModule,
     RouterModule
-  ],
-  declarations: [
-    LoadingComponent
-  ],
+  ]
 })
 export class SharedModule { }

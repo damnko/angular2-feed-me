@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 
+import { IngredientService, RecipeService } from '../../core/services';
 import { Recipe, RecipeIngredient, Ingredient, AppState } from '../../core/models';
 import { RecipeActions } from '../../core/actions';
 
@@ -17,78 +18,73 @@ import { RecipeActions } from '../../core/actions';
       margin-right: 40px;
     }
   `],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <h3>{{ currentIngredient.name }}</h3>
+    <h3>{{ ingredient.selectedIngredientName$ | async}}</h3>
     <ngx-datatable
       class="material"
-      [rows]="nutrients"
+      [rows]="ingredient.selectedIngredientNutrients$ | async"
       [columns]="columns"
       [headerHeight]="50"
       [footerHeight]="50"
       [rowHeight]="'auto'">
     </ngx-datatable>
-    <button md-mini-fab class="save-button" (click)="toggleIngredient(currentIngredient)">
-      <i class="fa fa-star-o" aria-hidden="true" *ngIf="!isSaved(currentIngredient.ndbno)"></i>
-      <i class="fa fa-star" aria-hidden="true" *ngIf="isSaved(currentIngredient.ndbno)"></i>
+    <button md-mini-fab class="save-button" (click)="toggleIngredient()">
+      <i class="fa fa-star-o" aria-hidden="true" *ngIf="!(isSaved() | async)"></i>
+      <i class="fa fa-star" aria-hidden="true" *ngIf="isSaved() | async"></i>
     </button>
   `
 })
 
 export class FactsheetComponent implements OnInit {
-  ingredient$: Observable<Ingredient>;
-  recipe$: Observable<Recipe>;
-  nutrients: any[];
-  columns: any = [{
+  columns = [{
     prop: 'name'
   }, {
     prop: 'value'
   }];
-  currentIngredient: any;
-  private savedIngredients: Map<string, RecipeIngredient> = new Map();
+  currentIngredient: {
+    name: string,
+    ndbno: string
+  };
 
   constructor(
     private store: Store<AppState>,
-    private recipeActions: RecipeActions
+    private recipeActions: RecipeActions,
+    public recipe: RecipeService,
+    public ingredient: IngredientService
   ) { }
 
   ngOnInit() {
-    this.ingredient$ = this.store.select('ingredient');
-    this.ingredient$
-      .do(ing => this.currentIngredient = ing.selectedIngredient.report.food)
-      .map(ing => ing.selectedIngredient.report.food.nutrients)
-      .map(nutrients => nutrients.map((nutrient: any) => {
-        return {
-          name: nutrient.name,
-          value: nutrient.value + nutrient.unit
+    this.ingredient.selectedIngredient$
+      .first()
+      .subscribe(selectedIngredient => {
+        const ingredient = selectedIngredient.report.food;
+        const name = ingredient.name.split(',')[0].toLowerCase();
+        this.currentIngredient = {
+          name: name[0].toUpperCase() + name.slice(1),
+          ndbno: ingredient.ndbno
         };
-      }))
-      .subscribe(nutrients => this.nutrients = nutrients);
-
-    this.recipe$ = this.store.select('recipe');
-    this.recipe$.subscribe(res => {
-      this.savedIngredients = res.ingredients;
-    });
+      });
   }
 
-  isSaved(ndbno: string): boolean {
-    return this.savedIngredients.has(ndbno);
+  isSaved(): Observable<boolean> {
+    return this.recipe.isIngredientSaved$(this.currentIngredient.ndbno);
   }
 
-  toggleIngredient(ingredient: any): void {
-    const name = ingredient.name.split(',')[0].toLowerCase();
-    const ingredientData = {
-      name: name[0].toUpperCase() + name.slice(1),
-      ndbno: ingredient.ndbno
-    };
-    if (this.isSaved(ingredient.ndbno)) {
-      this.store.dispatch(
-        this.recipeActions.removeIngredient(ingredient.ndbno)
-      );
-    } else {
-      this.store.dispatch(
-        this.recipeActions.addIngredient(ingredientData)
-      );
-    }
+  toggleIngredient(): void {
+    this.recipe.isIngredientSaved$(this.currentIngredient.ndbno)
+      .first()
+      .subscribe(isSaved => {
+        if (isSaved) {
+          this.store.dispatch(
+            this.recipeActions.removeIngredient(this.currentIngredient.ndbno)
+          );
+        } else {
+          this.store.dispatch(
+            this.recipeActions.addIngredient(this.currentIngredient)
+          );
+        }
+      });
   }
 
 }

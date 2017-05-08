@@ -1,14 +1,42 @@
+import { AppState } from './../models/app-state';
+import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
 
 import { config } from '../../config';
+import { Ingredients, Recipe } from '../models';
+import {
+  getRecipeIngredients,
+  getRecipeLoading,
+  getRecipeState,
+  getSelectedIngredient,
+} from '../selectors';
 
 @Injectable()
 export class RecipeService {
-  constructor(private http: Http) { }
+  recipe$: Observable<Recipe>;
+  ingredients$: Observable<Ingredients>;
+  loading$: Observable<boolean>;
+  selectedIngredient$: Observable<string>;
 
-  searchRecipes(query: string): Observable<any> {
+  constructor(
+    private http: Http,
+    private store: Store<AppState>
+  ) {
+    this.recipe$ = getRecipeState(store);
+    this.ingredients$ = getRecipeIngredients(store);
+    this.loading$ = getRecipeLoading(store);
+    this.selectedIngredient$ = getSelectedIngredient(store);
+  }
+
+  getAllIngredients$(): Observable<string[]> {
+    return this.ingredients$
+      .map(ingredients => Array.from(ingredients.values()))
+      .map(ingredients => ingredients.map(ingredient => ingredient.name.split(',')[0]));
+  }
+
+  searchRecipes$(query: string): Observable<any> {
     const baseUrl = 'https://api.edamam.com/search';
     const urlParams = [
       `q=${query}`,
@@ -37,5 +65,11 @@ export class RecipeService {
           })
         };
       });
+  }
+
+  isIngredientSaved$(ndbno: string): Observable<boolean> {
+    return this.ingredients$
+      .map(i => i.has(ndbno))
+      .distinctUntilChanged();
   }
 }

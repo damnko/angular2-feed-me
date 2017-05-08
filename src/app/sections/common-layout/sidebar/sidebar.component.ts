@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { RecipeService } from './../../../core/services/recipe.service';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
@@ -12,23 +13,14 @@ import { RecipeActions } from '../../../core/actions/recipe-actions';
   templateUrl: `./sidebar.component.html`
 })
 
-export class SidebarComponent implements OnInit {
-  recipe$: Observable<Recipe>;
+export class SidebarComponent {
   ingredientsShort: string[] = [];
 
   constructor(
     private store: Store<AppState>,
-    private recipeActions: RecipeActions
+    private recipeActions: RecipeActions,
+    public recipe: RecipeService
   ) { }
-
-  ngOnInit() {
-    this.recipe$ = this.store.select('recipe');
-    this.recipe$.map(res => Array.from(res.ingredients.values()))
-      .map(ingredients => ingredients.map(ingredient => ingredient.name.split(',')[0]))
-      .subscribe(ingredients => {
-        this.ingredientsShort = ingredients;
-      });
-  }
 
   removeIngredient(ndbno: string, event: any): void {
     event.preventDefault();
@@ -38,10 +30,14 @@ export class SidebarComponent implements OnInit {
   }
 
   searchRecipes(): void {
-    const query = this.ingredientsShort.join(' ');
-    this.store.dispatch(
-      this.recipeActions.searchRecipe(query)
-    );
+    this.recipe.getAllIngredients$()
+      .map((ingredients: string[]) => ingredients.join(' '))
+      .first()
+      .subscribe((query: string) => {
+        this.store.dispatch(
+          this.recipeActions.searchRecipe(query)
+        );
+      });
   }
 
   clearIngredientsList(): void {

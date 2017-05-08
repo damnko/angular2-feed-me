@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule  } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SidebarModule } from 'ng-sidebar';
@@ -34,7 +32,5 @@ import '../styles/styles.scss';
     AppComponent,
   ],
   bootstrap: [AppComponent],
-  providers: [
-  ],
 })
 export class AppModule { }

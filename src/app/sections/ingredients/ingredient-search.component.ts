@@ -1,11 +1,9 @@
-import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
-
-import { Ingredient, AppState } from '../../core/models';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { IngredientService } from '../../core/services/ingredient.service';
 
 @Component({
   selector: 'ingredient-search',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     .content {
       text-align: center;
@@ -21,7 +19,7 @@ import { Ingredient, AppState } from '../../core/models';
   `],
   template: `
   <div fxLayout="row" fxLayoutAlign="space-around center">
-    <div fxFlex="100" class="content" [class.no-search]="(ingredient$|async)?.searchTerm === ''">
+    <div fxFlex="100" class="content" [class.no-search]="(ingredient.searchTerm$ | async) === ''">
       <h2>Ingredient search</h2>
       <search-input></search-input>
     </div>
@@ -29,13 +27,6 @@ import { Ingredient, AppState } from '../../core/models';
   `
 })
 
-export class IngredientSearchComponent implements OnInit {
-  ingredient$: Observable<Ingredient>;
-
-  constructor(private store: Store<AppState>) { }
-
-  ngOnInit() {
-    this.ingredient$ = this.store.select('ingredient');
-  }
-
+export class IngredientSearchComponent {
+  constructor(public ingredient: IngredientService) { }
 }

@@ -5,7 +5,7 @@ import { NgModule } from '@angular/core';
 import { ingredient, recipe, layout } from './reducers';
 import { LayoutActions, RecipeActions, IngredientActions } from './actions';
 import { RecipeEffects, IngredientEffects } from './effects';
-import { RecipeService, IngredientService } from './services';
+import { RecipeService, IngredientService, LayoutService } from './services';
 import { initialIngredient, initialRecipe, initialLayout } from './models';
 
 const NGRX_ACTIONS = [
@@ -16,7 +16,8 @@ const NGRX_ACTIONS = [
 
 const SERVICES = [
   RecipeService,
-  IngredientService
+  IngredientService,
+  LayoutService
 ];
 
 @NgModule({

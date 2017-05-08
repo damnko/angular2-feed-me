@@ -3,32 +3,35 @@
     <md-input-container align="center" class="main-search">
       <input mdInput placeholder="Search ingredient here" #searchBox>
     </md-input-container>
-    <div *ngIf="(ingredient$|async)?.searchTerm === ''" class="animated bounce">
+    <div *ngIf="(ingredient.searchTerm$ | async) === ''" class="animated bounce">
       Type some ingredient like <strong class="typewriter" (click)="searchSampleString(sampleString)" #sampleString></strong>
     </div>
 </div>
 </div>
-<div *ngIf="(ingredient$|async)?.searchTerm !== ''">
-  <loading-message [searchString]="(ingredient$|async)?.searchTerm" *ngIf="(ingredient$|async)?.loading"></loading-message>
-  <div *ngIf="(ingredient$|async)?.details || (ingredient$|async)?.error" fxLayout="row" fxLayoutAlign="center" fxLayoutWrap="wrap">
+<div *ngIf="(ingredient.searchTerm$|async) !== ''">
+  <loading-message
+    *ngIf="ingredient.loading$ | async"
+    [searchString]="ingredient.searchTerm$ | async">
+  </loading-message>
+  <div *ngIf="(ingredient.details$|async) || (ingredient.error$|async)" fxLayout="row" fxLayoutAlign="center" fxLayoutWrap="wrap">
     <div fxFlex="100">
       <h2>
         Search results for
         <span class="search-string">
-          {{ (ingredient$|async)?.searchTerm }}
+          {{ ingredient.searchTerm$ | async }}
           <a href="#" (click)="clearSearch($event)"><i class="fa fa-times-circle fa-fw" aria-hidden="true"></i></a>
         </span>
       </h2>
     </div>
-    <div *ngIf="(ingredient$|async)?.error" fxFlex="50" fxLayoutAlign="center">
-      No ingredient found by the name of {{ (ingredient$|async)?.searchTerm }}
+    <div *ngIf="ingredient.error$ | async" fxFlex="50" fxLayoutAlign="center">
+      No ingredient found by the name of {{ ingredient.searchTerm$ | async }}
     </div>
-    <div *ngIf="(ingredient$|async)?.details" fxFlex="100" fxLayoutWrap="wrap" fxLayoutAlign="center" fxLayoutGap="10px">
+    <div *ngIf="ingredient.details$ | async" fxFlex="100" fxLayoutWrap="wrap" fxLayoutAlign="center" fxLayoutGap="10px">
       <md-card
-        *ngFor="let ing of (ingredient$|async)?.details.item"
+        *ngFor="let ing of (ingredient.details$|async)?.item"
         class="ingredient-card"
         fxFlex="10"
-        [class.isSaved]="isSaved(ing.ndbno)"
+        [class.isSaved]="recipe.isIngredientSaved$(ing.ndbno) | async"
         (click)="searchIngredientDetails(ing)">
         <md-progress-bar *ngIf="ing.loadingDetails" mode="indeterminate" class="progress-bar"></md-progress-bar>
         <md-card-header>
@@ -36,8 +39,8 @@
         </md-card-header>
         <md-card-content>{{ ing.name }}</md-card-content>
         <button md-mini-fab class="save-button" (click)="toggleIngredient(ing, $event)">
-          <i class="fa fa-star-o" aria-hidden="true" *ngIf="!isSaved(ing.ndbno)"></i>
-          <i class="fa fa-star" aria-hidden="true" *ngIf="isSaved(ing.ndbno)"></i>
+          <i class="fa fa-star-o" aria-hidden="true" *ngIf="!(recipe.isIngredientSaved$(ing.ndbno) | async)"></i>
+          <i class="fa fa-star" aria-hidden="true" *ngIf="recipe.isIngredientSaved$(ing.ndbno) | async"></i>
         </button>
       </md-card>
     </div>

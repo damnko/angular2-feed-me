@@ -1,37 +1,34 @@
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+
 import { Layout, AppState } from '../../../core/models';
 import { LayoutActions } from '../../../core/actions/layout-actions';
+import { LayoutService } from '../../../core/services/layout.service';
 
 @Component({
   selector: 'toolbar',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [`./toolbar.component.scss`],
   template: `
   <md-toolbar color="primary" class="toolbar">
     <a href="#" (click)="toggleSide($event)" class="toggle-toolbar-icon">
-      <i class="fa fa-bars" *ngIf="!(layout$|async)?.sidebarOpened"></i>
-      <i class="fa fa-times" *ngIf="(layout$|async)?.sidebarOpened"></i>
+      <i class="fa fa-bars" *ngIf="!(layout.sidebarOpened | async)"></i>
+      <i class="fa fa-times" *ngIf="layout.sidebarOpened | async"></i>
     </a>
     <a routerLink="/" routerLinkActive="active">FeedMe Logo</a>
     <span class="menu-space-filler"></span>
     <a routerLink="/" routerLinkActive="active">Github</a>
   </md-toolbar>
-
   `
 })
 
-export class ToolbarComponent implements OnInit {
-  layout$: Observable<Layout>;
-
+export class ToolbarComponent {
   constructor(
     private store: Store<AppState>,
-    private layoutActions: LayoutActions
+    private layoutActions: LayoutActions,
+    public layout: LayoutService
   ) { }
-
-  ngOnInit() {
-    this.layout$ = this.store.select('layout');
-  }
 
   toggleSide(event: any) {
     event.preventDefault();

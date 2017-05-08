@@ -3,8 +3,10 @@ export interface RecipeIngredient {
   ndbno: string;
 }
 
+export type Ingredients = Map<string, RecipeIngredient>;
+
 export interface Recipe {
-  ingredients: Map<string, RecipeIngredient>;
+  ingredients: Ingredients;
   loadingRecipes: boolean;
   recipes: any;
   selectedRecipe: string;

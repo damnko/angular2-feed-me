@@ -1,4 +1,5 @@
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 import { MdDialog } from '@angular/material';
 import {
@@ -7,61 +8,46 @@ import {
   ViewChild,
   ElementRef,
   ViewEncapsulation,
-  AfterViewInit
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  OnDestroy
 } from '@angular/core';
 
+import { RecipeService, IngredientService } from './../../../core/services';
 import { IngredientActions, RecipeActions } from '../../../core/actions';
 import { AppState, Recipe, RecipeIngredient, Ingredient } from '../../../core/models';
 import { FactsheetComponent } from '../factsheet.component';
 
 @Component({
   selector: 'search-input',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: [`./search-input.component.scss`],
   templateUrl: `./search-input.component.html`
 })
 
-export class SearchInputComponent implements OnInit, AfterViewInit {
-  ingredient$: Observable<Ingredient>;
-  recipe$: Observable<Recipe>;
+export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchBox') searchBox: ElementRef;
-  private savedIngredients: Map<string, RecipeIngredient> = new Map();
+  private searchIngredient$: Subscription;
+  private showDetails$: Subscription;
 
   constructor(
     private store: Store<AppState>,
     private ingredientActions: IngredientActions,
     private dialog: MdDialog,
-    private recipeActions: RecipeActions
+    private recipeActions: RecipeActions,
+    private ingredient: IngredientService,
+    private recipe: RecipeService,
   ) { }
 
   ngOnInit() {
-    this.ingredient$ = this.store.select('ingredient');
-    this.recipe$ = this.store.select('recipe');
-
-    Observable.fromEvent(this.searchBox.nativeElement, 'keyup')
-      .map((res: any) => res.target.value)
-      .distinctUntilChanged()
-      .debounceTime(400)
-      .filter((searchStr: string) => searchStr !== '' && searchStr.length > 2)
+    this.searchIngredient$ = Observable.fromEvent(this.searchBox.nativeElement, 'keyup')
+      .let(this.ingredient.keyupSearch)
       .subscribe((searchStr: string) => {
         this.searchIngredient(searchStr);
       });
 
-    this.ingredient$
-      .map(res => res.selectedIngredient)
-      .distinctUntilChanged()
-      .filter(res => res !== null)
+    this.showDetails$ = this.ingredient.selectedIngredient$
       .subscribe(() => this.showIngredientDetails());
-
-    this.ingredient$.map(res => res.searchTerm)
-      .subscribe(term => {
-        if (term === '') {
-          this.initTypewriter();
-        }
-      });
-
-    this.recipe$.subscribe(res => {
-      this.savedIngredients = res.ingredients;
-    });
   }
 
   ngAfterViewInit() {
@@ -108,25 +94,26 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
     });
   }
 
-  isSaved(ndbno: string): boolean {
-    return this.savedIngredients.has(ndbno);
-  }
-
   toggleIngredient(ingredient: any, event: any): void {
     event.stopPropagation();
     const ingredientData = {
       name: ingredient.title,
       ndbno: ingredient.ndbno
     };
-    if (this.isSaved(ingredient.ndbno)) {
-      this.store.dispatch(
-        this.recipeActions.removeIngredient(ingredient.ndbno)
-      );
-    } else {
-      this.store.dispatch(
-        this.recipeActions.addIngredient(ingredientData)
-      );
-    }
+
+    this.recipe.isIngredientSaved$(ingredient.ndbno)
+      .first()
+      .subscribe(isSaved => {
+        if (isSaved) {
+          this.store.dispatch(
+            this.recipeActions.removeIngredient(ingredient.ndbno)
+          );
+        } else {
+          this.store.dispatch(
+            this.recipeActions.addIngredient(ingredientData)
+          );
+        }
+      });
   }
 
   clearSearch(event: any): void {
@@ -141,8 +128,13 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
     }, 0);
   }
 
-  searchSampleString(event: HTMLElement) {
+  searchSampleString(event: HTMLElement): void {
     this.searchBox.nativeElement.value = event.innerText;
     this.searchIngredient(event.innerText);
+  }
+
+  ngOnDestroy(): void {
+    this.searchIngredient$.unsubscribe();
+    this.showDetails$.unsubscribe();
   }
 }
