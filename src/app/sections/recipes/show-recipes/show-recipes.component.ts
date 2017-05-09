@@ -25,6 +25,8 @@ export class ShowRecipesComponent implements OnInit, OnDestroy {
   totalItems: number;
   paginationLoading: boolean = false;
 
+  defaultImage = 'https://hd.unsplash.com/photo-1431400445088-1750c997c6b5';
+
   constructor(
     private store: Store<AppState>,
     private route: ActivatedRoute,

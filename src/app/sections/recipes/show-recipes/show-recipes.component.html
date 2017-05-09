@@ -29,7 +29,7 @@
     <md-card-header>
       <md-card-title>{{ r.name }}</md-card-title>
     </md-card-header>
-    <img md-card-image [src]="r.img">
+    <img md-card-image [lazyLoad]="r.img">
     <md-card-content>
       <div>{{ r.ingredients.join(', ') }}</div>
       <h5>Health labels:</h5>

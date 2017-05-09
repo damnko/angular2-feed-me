@@ -3503,6 +3503,10 @@ negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
 
+ng-lazyload-image@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/ng-lazyload-image/-/ng-lazyload-image-3.1.0.tgz#73899a43bd5345459f8f994578f052b2b5736726"
+
 ng-sidebar@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/ng-sidebar/-/ng-sidebar-4.2.3.tgz#b3ace4b4b7b3da713508c3d72b70b9db30ac682c"
