@@ -23,3 +23,46 @@ h3, h2 {
 snack-bar-container.snackbar-delete {
   background: map-get($bg-colors, cta);
 }
+
+.cdk-overlay-container {
+  z-index: 999999;
+}
+
+// pagination
+.pagination-loading {
+  text-align: center;
+
+  md-spinner {
+    margin: 0 auto;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.custom-pagination {
+  ul.ngx-pagination {
+    padding-left: 0;
+
+    li {
+      margin: .2rem;
+      border-radius: 5px;
+      background-color: map-get($bg-colors, light);
+
+      &.current, &.disabled {
+        background-color: transparent;
+        color: map-get($primary-colors, dark);;
+      }
+
+      a {
+        padding: .5rem .7rem;
+        cursor: pointer;
+
+        &:hover {
+          border-radius: 5px;
+          background-color: map-get($primary-colors, dark);
+          color: map-get($primary-colors, light);
+        }
+      }
+    }
+  }
+}

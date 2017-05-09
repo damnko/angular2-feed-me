@@ -27,8 +27,16 @@ import { FactsheetComponent } from '../factsheet.component';
 
 export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('searchBox') searchBox: ElementRef;
+  private searchTerm: string;
   private searchIngredient$: Subscription;
   private showDetails$: Subscription;
+  private pagination$: Subscription;
+
+  // pagination setup
+  itemsPerPage: number;
+  currentPage: number = 1;
+  totalItems: number;
+  paginationLoading: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -37,48 +45,42 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
     private recipeActions: RecipeActions,
     private ingredient: IngredientService,
     private recipe: RecipeService,
-  ) { }
+  ) {
+    this.itemsPerPage = this.ingredient.itemsPerPage;
+  }
 
   ngOnInit() {
     this.searchIngredient$ = Observable.fromEvent(this.searchBox.nativeElement, 'keyup')
       .let(this.ingredient.keyupSearch)
       .subscribe((searchStr: string) => {
-        this.searchIngredient(searchStr);
+        this.searchIngredient(searchStr, 1);
       });
 
     this.showDetails$ = this.ingredient.selectedIngredient$
       .subscribe(() => this.showIngredientDetails());
+
+    this.pagination$ = this.ingredient.details$
+      .filter(res => res !== null)
+      .subscribe(res => {
+        this.paginationLoading = false;
+        this.totalItems = res.total;
+        this.currentPage = res.page;
+      });
   }
 
   ngAfterViewInit() {
     this.initTypewriter();
   }
 
-  private initTypewriter(): void {
-    Typed.new('.typewriter', {
-      strings: [
-        'tomato',
-        'potatoes',
-        'milk',
-        'chocolate',
-        'butter',
-        'sunflower seeds',
-        'olive oil',
-        'apple pie',
-        'sugar'
-      ],
-      shuffle: true,
-      loop: true,
-      showCursor: true,
-      typeSpeed: 0,
-      backDelay: 1500,
-      startDelay: 1000
-    });
+  changePage(page: number) {
+    this.paginationLoading = true;
+    this.searchIngredient(this.searchTerm, page);
   }
 
-  searchIngredient(searchString: string): void {
+  searchIngredient(searchString: string, page: number): void {
+    this.searchTerm = searchString;
     this.store.dispatch(
-      this.ingredientActions.searchIngredient(searchString)
+      this.ingredientActions.searchIngredient(searchString, page)
     );
   }
 
@@ -130,11 +132,34 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
 
   searchSampleString(event: HTMLElement): void {
     this.searchBox.nativeElement.value = event.innerText;
-    this.searchIngredient(event.innerText);
+    this.searchIngredient(event.innerText, 1);
   }
 
   ngOnDestroy(): void {
     this.searchIngredient$.unsubscribe();
     this.showDetails$.unsubscribe();
+    this.pagination$.unsubscribe();
+  }
+
+  private initTypewriter(): void {
+    Typed.new('.typewriter', {
+      strings: [
+        'tomato',
+        'potatoes',
+        'milk',
+        'chocolate',
+        'butter',
+        'sunflower seeds',
+        'olive oil',
+        'apple pie',
+        'sugar'
+      ],
+      shuffle: true,
+      loop: true,
+      showCursor: true,
+      typeSpeed: 0,
+      backDelay: 1500,
+      startDelay: 1000
+    });
   }
 }

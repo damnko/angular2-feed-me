@@ -18,7 +18,7 @@ export function ingredient(state: Ingredient, action: Action): Ingredient {
     case SET_LOADING:
       return Object.assign({}, state, { loading: action.payload });
     case SEARCH_INGREDIENT:
-      return Object.assign({}, state, { searchTerm: action.payload, error: null });
+      return Object.assign({}, state, { searchTerm: action.payload.name, error: null });
     case SEARCH_INGREDIENT_SUCCESS:
       return Object.assign({}, state, { details: action.payload });
     case SEARCH_INGREDIENT_FAIL:
@@ -47,5 +47,11 @@ function setIngredientLoadingState(state: Ingredient, id: string, isLoading: boo
       return el;
     }
   });
-  return Object.assign({}, state, { details: { item } });
+  return Object.assign({}, state, {
+    details: {
+      item,
+      page: state.details.page,
+      total: state.details.total
+    }
+  });
 }

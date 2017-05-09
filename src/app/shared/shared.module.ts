@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgxPaginationModule } from 'ngx-pagination';
 import {
   MdButtonModule,
   MdToolbarModule,
@@ -36,8 +37,7 @@ const ANGULAR_MATERIAL_COMPONENTS = [
     ...ANGULAR_MATERIAL_COMPONENTS,
     CommonModule,
     RouterModule,
-    FlexLayoutModule,
-    NgxDatatableModule
+    FlexLayoutModule
   ],
   declarations: [
     LoadingComponent
@@ -48,7 +48,8 @@ const ANGULAR_MATERIAL_COMPONENTS = [
     NgxDatatableModule,
     LoadingComponent,
     CommonModule,
-    RouterModule
+    RouterModule,
+    NgxPaginationModule
   ]
 })
 export class SharedModule { }

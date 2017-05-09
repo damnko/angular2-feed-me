@@ -19,7 +19,7 @@
     </recipe-result-text>
   </div>
   <md-card
-    *ngFor="let r of (recipe.hits$|async)"
+    *ngFor="let r of (recipe.hits$|async) | paginate: { id: 'pagination', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
     class="recipe-card"
     fxFlex="100"
     [class.selected]="isSelected((recipe.selectedRecipe$|async), r)"
@@ -36,4 +36,10 @@
       <span class="recipe-tag" *ngFor="let label of r.labels">{{ label }}</span>
     </md-card-content>
   </md-card>
+  <div fxFlex="100" *ngIf="paginationLoading" class="pagination-loading">
+    <md-spinner></md-spinner>
+  </div>
+  <div fxFlex="100" fxLayoutAlign="center">
+    <pagination-controls (pageChange)="changePage($event)" class="custom-pagination" id="pagination"></pagination-controls>
+  </div>
 </div>

@@ -27,6 +27,7 @@ export class IngredientService {
   details$: Observable<any>;
   selectedIngredientName$: Observable<string>;
   selectedIngredientNutrients$: Observable<any>;
+  itemsPerPage: number = 30;
 
   constructor(
     private http: Http,
@@ -49,14 +50,15 @@ export class IngredientService {
       .filter((searchStr: string) => searchStr !== '' && searchStr.length > 2);
   }
 
-  searchIngredient(searchString: string): Observable<any> {
+  searchIngredient(searchString: string, page: number = 1): Observable<any> {
     const baseUrl = 'https://api.nal.usda.gov/ndb/search/';
+    const pageOffset = (page - 1) * this.itemsPerPage;
     const urlParams = [
       `format=json`,
       `q=${searchString}`,
       `sort=r`,
-      `max=25`,
-      `offset=0`,
+      `max=30`,
+      `offset=${pageOffset}`,
       `api_key=${config.usda.apiKey}`
     ].join('&');
 
@@ -65,10 +67,10 @@ export class IngredientService {
       .map(res => res.list)
       .map(res => {
         return {
-          start: res.start,
-          end: res.end,
+          // need to hardcode page nr since the usda api seems buggy in returnin offset param
+          page,
           total: res.total,
-          item: res ? res.item.map(this.refactorIngredient) : []
+          item: res ? res.item.map((ing: any) => this.refactorIngredient(ing)) : []
         };
       });
   }
@@ -85,16 +87,25 @@ export class IngredientService {
   }
 
   private refactorIngredient(ingredient: any): any {
-    const name = ingredient.name.toLowerCase().split(',');
-    let title = name.shift();
-    title = title[0].toUpperCase() + title.slice(1);
-    let body = name.join(',');
-    body = body[0].toUpperCase() + body.slice(1);
+    let name = ingredient.name.toLowerCase();
+    let title = this.capitalizeWord(name);
+    let body = '';
+    if (name.indexOf(',') !== -1) {
+      name = name.split(',');
+      title = name.shift();
+      title = this.capitalizeWord(title);
+      body = name.join(',');
+      body = this.capitalizeWord(body);
+    }
     return {
       title,
       name: body,
       ndbno: ingredient.ndbno,
       loadingDetails: false
     };
+  }
+
+  private capitalizeWord(word: string): string {
+    return word[0].toUpperCase() + word.slice(1);
   }
 }

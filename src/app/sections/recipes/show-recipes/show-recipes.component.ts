@@ -17,6 +17,13 @@ import { AppState, Recipe } from '../../../core/models';
 export class ShowRecipesComponent implements OnInit, OnDestroy {
   query: string = '';
   updateUrlParams$: Subscription;
+  pagination$: Subscription;
+
+  // pagination setup
+  itemsPerPage: number;
+  currentPage: number = 1;
+  totalItems: number;
+  paginationLoading: boolean = false;
 
   constructor(
     private store: Store<AppState>,
@@ -24,13 +31,29 @@ export class ShowRecipesComponent implements OnInit, OnDestroy {
     private recipeActions: RecipeActions,
     private router: Router,
     public recipe: RecipeService
-  ) { }
+  ) {
+    this.itemsPerPage = this.recipe.itemsPerPage;
+  }
 
   ngOnInit() {
     this.checkQueryParams();
 
     this.updateUrlParams$ = this.recipe.updateUrlParams(this.query, this.route)
-      .subscribe((navExtras: NavigationExtras) => this.router.navigate(['.'], navExtras));
+      .subscribe((navExtras: NavigationExtras) => {
+        this.router.navigate(['.'], navExtras);
+    });
+
+    this.pagination$ = this.recipe.recipes$
+      .subscribe(res => {
+        this.paginationLoading = false;
+        this.totalItems = res.total;
+        this.currentPage = res.page;
+      });
+  }
+
+  changePage(page: number) {
+    this.paginationLoading = true;
+    this.searchRecipe(this.query, page);
   }
 
   isSelected(name: string, recipe: any): boolean {
@@ -43,29 +66,31 @@ export class ShowRecipesComponent implements OnInit, OnDestroy {
     );
   }
 
-  searchRecipe(searchText: string): void {
+  searchRecipe(searchText: string, page: number = 1): void {
     this.query = searchText;
     this.store.dispatch(
-      this.recipeActions.searchRecipe(searchText)
+      this.recipeActions.searchRecipe(searchText, page)
     );
   }
 
   ngOnDestroy() {
     this.updateUrlParams$.unsubscribe();
+    this.pagination$.unsubscribe();
   }
 
   private checkQueryParams(): void {
     this.route.queryParams
       .map(params => {
         this.query = params['q'];
-        return { q: params['q'], s: params['s'] };
+        this.currentPage = +params['p'] || 1;
+        return { q: params['q'], s: params['s'], p: +params['p'] || 1 };
       }).withLatestFrom(this.store.select('recipe'))
       .first()
       .subscribe(([query, recipe]: [any, Recipe]) => {
         // trigger search if arriving here from direct link
         if (query.q !== recipe.recipes.query) {
           this.store.dispatch(
-            this.recipeActions.searchRecipe(query.q)
+            this.recipeActions.searchRecipe(query.q, query.p)
           );
         }
         // trigger selected recipe if arriving here from direct link

@@ -31,7 +31,7 @@
     </div>
     <div *ngIf="ingredient.details$ | async" fxFlex="100" fxLayoutWrap="wrap" fxLayoutAlign="center" fxLayoutGap="10px">
       <md-card
-        *ngFor="let ing of (ingredient.details$|async)?.item"
+        *ngFor="let ing of (ingredient.details$|async)?.item | paginate: { id: 'pagination', itemsPerPage: itemsPerPage, currentPage: currentPage, totalItems: totalItems }"
         class="ingredient-card"
         fxFlex="100"
         fxFlex.gt-xs="30"
@@ -48,6 +48,12 @@
           <i class="fa fa-star" aria-hidden="true" *ngIf="recipe.isIngredientSaved$(ing.ndbno) | async"></i>
         </button>
       </md-card>
+    </div>
+    <div fxFlex="100" *ngIf="paginationLoading" class="pagination-loading">
+      <md-spinner></md-spinner>
+    </div>
+    <div fxFlex="100">
+      <pagination-controls (pageChange)="changePage($event)" class="custom-pagination" id="pagination"></pagination-controls>
     </div>
   </div>
 </div>

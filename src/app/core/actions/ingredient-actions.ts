@@ -14,10 +14,13 @@ export const SET_LOADING = 'SET_LOADING',
 @Injectable()
 export class IngredientActions {
 
-  searchIngredient(name: string): Action {
+  searchIngredient(name: string, page: number): Action {
     return {
       type: SEARCH_INGREDIENT,
-      payload: name
+      payload: {
+        name,
+        page
+      }
     };
   }
 

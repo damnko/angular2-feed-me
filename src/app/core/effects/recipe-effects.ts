@@ -24,8 +24,8 @@ export class RecipeEffects {
     .ofType(SEARCH_RECIPE)
     .map(action => action.payload)
     .do(() => this.store.dispatch(this.recipeActions.setLoading(true)))
-    .flatMap((query: string) => {
-      return this.recipeService.searchRecipes$(query)
+    .flatMap(({query, page}) => {
+      return this.recipeService.searchRecipes$(query, page)
         .map(res => this.recipeActions.searchRecipeSuccess(res))
         .catch(error => Observable.of(this.recipeActions.searchRecipeFailed(error)))
         .finally(() => this.store.dispatch(this.recipeActions.setLoading(false)));

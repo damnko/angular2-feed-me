@@ -21,7 +21,12 @@ export const initialIngredient: Ingredient = {
 export const initialRecipe: Recipe = {
   ingredients: new Map(),
   loadingRecipes: false,
-  recipes: [],
+  recipes: {
+    query: null,
+    total: 0,
+    page: 1,
+    hits: []
+  },
   selectedRecipe: null
 };
 

@@ -14,7 +14,8 @@ import {
   getSelectedIngredient,
   getSelectedRecipe,
   getRecipeHits,
-  getRecipeLength
+  getRecipeLength,
+  getRecipes
 } from '../selectors';
 
 @Injectable()
@@ -26,6 +27,8 @@ export class RecipeService {
   selectedRecipe$: Observable<string>;
   hits$: Observable<any>;
   length$: Observable<number>;
+  recipes$: Observable<any>;
+  itemsPerPage: number = 30;
 
   constructor(
     private http: Http,
@@ -38,6 +41,7 @@ export class RecipeService {
     this.selectedRecipe$ = getSelectedRecipe(store);
     this.hits$ = getRecipeHits(store);
     this.length$ = getRecipeLength(store);
+    this.recipes$ = getRecipes(store);
   }
 
   getAllIngredients$(): Observable<string[]> {
@@ -46,23 +50,25 @@ export class RecipeService {
       .map(ingredients => ingredients.map(ingredient => ingredient.name.split(',')[0]));
   }
 
-  searchRecipes$(query: string): Observable<any> {
+  searchRecipes$(query: string, page: number): Observable<any> {
     const baseUrl = 'https://api.edamam.com/search';
+    const start = (page - 1) * this.itemsPerPage;
+    const end = start + this.itemsPerPage;
     const urlParams = [
       `q=${query}`,
       `app_id=${config.edamam.appId}`,
       `app_key=${config.edamam.apiKey}`,
-      `from=0`,
-      `to=10`
+      `from=${start}`,
+      `to=${end}`
     ].join('&');
+
     return this.http.get(`${baseUrl}?${urlParams}`)
       .map(res => res.json())
       .map(res => {
         return {
           query: res.q,
-          count: res.count,
-          from: res.from,
-          to: res.to,
+          total: res.count,
+          page,
           hits: res.hits.map((item: any) => {
             return {
               name: item.recipe.label,
@@ -84,13 +90,13 @@ export class RecipeService {
   }
 
   updateUrlParams(query: string, route: ActivatedRoute): Observable<NavigationExtras> {
-    return this.selectedRecipe$
-      .filter(recipe => recipe !== undefined)
+    return this.recipe$
       .map(recipe => {
-        const q = query;
-        const s = recipe;
+        const q = recipe.recipes.query;
+        const s = recipe.selectedRecipe;
+        const p = recipe.recipes.page;
         const navExtras: NavigationExtras = {
-          queryParams: !recipe ? { q } : { q, s },
+          queryParams: !s ? { q, p } : { q, p, s },
           relativeTo: route,
           // skipLocationChange: true,
           // queryParamsHandling: 'merge',

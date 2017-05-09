@@ -37,3 +37,9 @@ export function getRecipeLength(store$: Store<AppState>): Observable<number> {
     .map(recipeState => recipeState.recipes.hits.length)
     .distinctUntilChanged();
 }
+
+export function getRecipes(store$: Store<AppState>): Observable<any> {
+  return store$.let(getRecipeState)
+    .map(recipeState => recipeState.recipes)
+    .distinctUntilChanged();
+}

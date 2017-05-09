@@ -3507,6 +3507,10 @@ ng-sidebar@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/ng-sidebar/-/ng-sidebar-4.2.3.tgz#b3ace4b4b7b3da713508c3d72b70b9db30ac682c"
 
+ngx-pagination@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/ngx-pagination/-/ngx-pagination-3.0.0.tgz#9db3b9088572d200d90bb562765d8acf7557f397"
+
 no-case@^2.2.0:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/no-case/-/no-case-2.3.1.tgz#7aeba1c73a52184265554b7dc03baf720df80081"

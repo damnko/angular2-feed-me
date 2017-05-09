@@ -28,8 +28,8 @@ export class IngredientEffects {
   searchIngredient$: Observable<Action> = this.actions.ofType(SEARCH_INGREDIENT)
     .do(() => this.store.dispatch(this.ingredientActions.setLoading(true)))
     .map((action: Action) => action.payload)
-    .switchMap((searchTerm: string) => {
-      return this.ingredientService.searchIngredient(searchTerm)
+    .switchMap(({ name, page }) => {
+      return this.ingredientService.searchIngredient(name, page)
         .map(res => this.ingredientActions.searchSuccess(res))
         .catch(err => Observable.of(this.ingredientActions.searchFailed(err)))
         .finally(() => this.store.dispatch(this.ingredientActions.setLoading(false)));

@@ -41,10 +41,10 @@ export class RecipeActions {
     };
   }
 
-  searchRecipe(query: string): Action {
+  searchRecipe(query: string, page: number = 1): Action {
     return {
       type: SEARCH_RECIPE,
-      payload: query
+      payload: { query, page }
     };
   }
 
