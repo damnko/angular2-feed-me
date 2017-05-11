@@ -23,9 +23,22 @@ module.exports = function (config) {
     logLevel: config.LOG_INFO,
     autoWatch: false,
     browsers: ['Chrome'],
-    singleRun: true,
+    // travis specific configuration
+    customLaunchers: {
+      ChromeTravisCi: {
+        base: 'Chrome',
+        flags: ['--no-sandbox']
+      }
+    },
+    singleRun: true, // if true, Karma captures browsers, runs the tests and exits
     failOnEmptyTestSuite: false
   };
+
+  if (process.env.TRAVIS) {
+    _config.browsers = [
+      'ChromeTravisCi'
+    ];
+  }
 
   config.set(_config);
 };
