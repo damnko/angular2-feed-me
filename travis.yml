@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+  - "7"
+before_install:
+  - npm i npm@^4 -g
+branches:
+  only:
+    - master
+cache:
+  yarn: true
+  directories:
+    - node_modules
