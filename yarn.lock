@@ -2,6 +2,15 @@
 # yarn lockfile v1
 
 
+"@angular-cli/ast-tools@^1.0.0":
+  version "1.0.16"
+  resolved "https://registry.yarnpkg.com/@angular-cli/ast-tools/-/ast-tools-1.0.16.tgz#6319942c1a25fb84e3294203e9f7a326632fce50"
+  dependencies:
+    "@angular/tsc-wrapped" "^0.5.0"
+    denodeify "^1.2.1"
+    rxjs "^5.0.1"
+    typescript "~2.0.3"
+
 "@angular/animations@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@angular/animations/-/animations-4.1.0.tgz#97b642aee01b5406e03ec65e499342ba91e2dd38"
@@ -67,6 +76,12 @@
   dependencies:
     tsickle "^0.21.0"
 
+"@angular/tsc-wrapped@^0.5.0":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@angular/tsc-wrapped/-/tsc-wrapped-0.5.2.tgz#2eddf472c467fcb334ea94deddaaa71990c5a482"
+  dependencies:
+    tsickle "^0.2"
+
 "@ngrx/core@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@ngrx/core/-/core-1.2.0.tgz#882b46abafa2e0e6d887cb71a1b2c2fa3e6d0dc6"
@@ -78,6 +93,12 @@
 "@ngrx/store@^2.2.2":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@ngrx/store/-/store-2.2.2.tgz#a00305a6452032a3385886a11ce529dce2dae65b"
+
+"@ngtools/webpack@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-1.1.2.tgz#a27a77430ad2fbd1dda59de790ce9770e3fd2298"
+  dependencies:
+    "@angular-cli/ast-tools" "^1.0.0"
 
 "@swimlane/ngx-datatable@^9.0.0":
   version "9.0.0"
@@ -1333,6 +1354,10 @@ deep-extend@~0.4.0:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/deep-extend/-/deep-extend-0.4.1.tgz#efe4113d08085f4e6f9687759810f807469e2253"
 
+deep-freeze-strict@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/deep-freeze-strict/-/deep-freeze-strict-1.1.1.tgz#77d0583ca24a69be4bbd9ac2fae415d55523e5b0"
+
 deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
@@ -1348,6 +1373,10 @@ delayed-stream@~1.0.0:
 delegates@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
+
+denodeify@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/denodeify/-/denodeify-1.2.1.tgz#3a36287f5034e699e7577901052c2e6c94251631"
 
 depd@1.1.0, depd@~1.1.0:
   version "1.1.0"
@@ -2541,6 +2570,10 @@ imagemin@^5.2.1, imagemin@^5.2.2:
     promise.pipe "^3.0.0"
     replace-ext "0.0.1"
 
+immutable@^3.8.1:
+  version "3.8.1"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.1.tgz#200807f11ab0f72710ea485542de088075f68cd2"
+
 in-publish@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/in-publish/-/in-publish-2.0.0.tgz#e20ff5e3a2afc2690320b6dc552682a9c7fadf51"
@@ -3510,6 +3543,12 @@ ng-lazyload-image@^3.1.0:
 ng-sidebar@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/ng-sidebar/-/ng-sidebar-4.2.3.tgz#b3ace4b4b7b3da713508c3d72b70b9db30ac682c"
+
+ngrx-store-freeze@^0.1.9:
+  version "0.1.9"
+  resolved "https://registry.yarnpkg.com/ngrx-store-freeze/-/ngrx-store-freeze-0.1.9.tgz#b20f18f21fd5efc4e1b1e05f6f279674d0f70c81"
+  dependencies:
+    deep-freeze-strict "^1.1.1"
 
 ngx-pagination@^3.0.0:
   version "3.0.0"
@@ -4602,7 +4641,7 @@ ripemd160@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-1.0.1.tgz#93a4bbd4942bc574b69a8fa57c71de10ecca7d6e"
 
-rxjs@^5.3.0:
+rxjs@^5.0.1, rxjs@^5.3.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-5.3.0.tgz#d88ccbdd46af290cbdb97d5d8055e52453fabe2d"
   dependencies:
@@ -5241,6 +5280,15 @@ ts-loader@^2.0.3:
     loader-utils "^1.0.2"
     semver "^5.0.1"
 
+tsickle@^0.2:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/tsickle/-/tsickle-0.2.6.tgz#ad4abf92e74ebdf3fb5aa187ca85b02066fe1a1b"
+  dependencies:
+    minimist "^1.2.0"
+    mkdirp "^0.5.1"
+    source-map "^0.5.6"
+    source-map-support "^0.4.2"
+
 tsickle@^0.21.0:
   version "0.21.6"
   resolved "https://registry.yarnpkg.com/tsickle/-/tsickle-0.21.6.tgz#53b01b979c5c13fdb13afb3fb958177e5991588d"
@@ -5306,6 +5354,10 @@ typedarray@^0.0.6:
 typescript@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.2.2.tgz#606022508479b55ffa368b58fee963a03dfd7b0c"
+
+typescript@~2.0.3:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.0.10.tgz#ccdd4ed86fd5550a407101a0814012e1b3fac3dd"
 
 uglify-js@^2.6, uglify-js@^2.8.5, uglify-js@~2.8.22:
   version "2.8.22"

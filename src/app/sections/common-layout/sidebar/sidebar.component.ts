@@ -1,10 +1,10 @@
-import { RecipeService } from './../../../core/services/recipe.service';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 
 import { AppState, Recipe } from '../../../core/models';
-import { RecipeActions } from '../../../core/actions/recipe-actions';
+import { RecipeActions } from '../../../core/actions';
+import { RecipeService } from '../../../core/services';
 
 @Component({
   selector: 'sidebar',

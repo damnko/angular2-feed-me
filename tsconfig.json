@@ -27,8 +27,11 @@
     ]
   },
   "exclude": [
+    "build",
+    "dist",
     "node_modules",
-    "dist"
+    "src/main.aot.ts",
+    "tmp"
   ],
   "angularCompilerOptions": {
     "debug": true,

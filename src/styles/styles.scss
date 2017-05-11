@@ -8,7 +8,7 @@
 
 @import '~animate.css/animate.css';
 
-@import './variables';
+@import './variables.scss';
 
 body {
   background-color: map-get($bg-colors, body);

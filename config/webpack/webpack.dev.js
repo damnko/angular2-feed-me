@@ -22,6 +22,17 @@ module.exports = webpackMerge(commonConfig, {
   module: {
     rules: [
       {
+        test: /\.ts$/,
+        loaders: [
+          {
+            loader: 'awesome-typescript-loader',
+            options: { configFileName: 'tsconfig.json' }
+          } ,
+          'angular2-template-loader',
+          'angular-router-loader'
+        ]
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
         include: [helpers.root('src/styles')]

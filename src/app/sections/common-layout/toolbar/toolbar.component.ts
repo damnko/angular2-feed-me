@@ -13,8 +13,8 @@ import { LayoutService } from '../../../core/services/layout.service';
   template: `
   <md-toolbar color="primary" class="toolbar">
     <a href="#" (click)="toggleSide($event)" class="toggle-toolbar-icon">
-      <i class="fa fa-bars" *ngIf="!(layout.sidebarOpened | async)"></i>
-      <i class="fa fa-times" *ngIf="layout.sidebarOpened | async"></i>
+      <i class="fa fa-bars" *ngIf="!(layout.sidebarOpened$ | async)"></i>
+      <i class="fa fa-times" *ngIf="layout.sidebarOpened$ | async"></i>
     </a>
     <a routerLink="/" routerLinkActive="active">FeedMe Logo</a>
     <span class="menu-space-filler"></span>

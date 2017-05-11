@@ -31,17 +31,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        loaders: [
-          {
-            loader: 'awesome-typescript-loader',
-            options: { configFileName: 'tsconfig.json' }
-          } ,
-          'angular2-template-loader',
-          'angular-router-loader'
-        ]
-      },
-      {
         test: /\.json$/,
         use: 'json-loader'
       },
@@ -147,14 +136,14 @@ module.exports = {
         interlaced: false
       }
     }),
-    // Workaround for angular/angular#11580
-    new ContextReplacementPlugin(
-      // The (\\|\/) piece accounts for path separators in *nix and Windows
-      // https://github.com/angular/angular.io/issues/3514
-      /angular(\\|\/)core(\\|\/)@angular/,
-      helpers.root('src'), // location of your src
-      {} // a map of your routes
-    ),
+    // // Workaround for angular/angular#11580
+    // new ContextReplacementPlugin(
+    //   // The (\\|\/) piece accounts for path separators in *nix and Windows
+    //   // https://github.com/angular/angular.io/issues/3514
+    //   /angular(\\|\/)core(\\|\/)@angular/,
+    //   helpers.root('src'), // location of your src
+    //   {} // a map of your routes
+    // ),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       title: METADATA.title,

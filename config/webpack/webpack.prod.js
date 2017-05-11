@@ -7,6 +7,7 @@ const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const NoEmitOnErrorsPlugin = require('webpack/lib/NoEmitOnErrorsPlugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const AotPlugin = require('@ngtools/webpack').AotPlugin;
 
 const commonConfig = require('./webpack.common');
 const helpers = require('../helpers');
@@ -26,6 +27,10 @@ module.exports = webpackMerge(commonConfig, {
   },
   module: {
     rules: [
+      {
+        test: /\.ts$/,
+        loader: '@ngtools/webpack',
+      },
       {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract({
@@ -53,6 +58,10 @@ module.exports = webpackMerge(commonConfig, {
     new OptimizeJsPlugin({
       sourceMap: false
     }),
+    new AotPlugin({
+      tsConfigPath: './tsconfig.json',
+      entryModule: helpers.root('src/app/app.module#AppModule')
+    }),
     new ExtractTextPlugin('[name].[contenthash].css'),
     new DefinePlugin({
       'process.env': {
@@ -75,7 +84,6 @@ module.exports = webpackMerge(commonConfig, {
       //   unused: false
       // }, // debug
       // comments: true, //debug
-
 
       beautify: false, //prod
       output: {

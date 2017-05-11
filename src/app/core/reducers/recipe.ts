@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Recipe } from '../models';
+import { Recipe, initialRecipe } from '../models';
 import {
   SET_LOADING_RECIPE,
   ADD_INGREDIENT,
@@ -11,7 +11,7 @@ import {
   SELECT_RECIPE
 } from '../actions';
 
-export function recipe(state: Recipe, action: Action): Recipe {
+export function recipe(state: Recipe = initialRecipe, action: Action): Recipe {
   switch (action.type) {
     case SET_LOADING_RECIPE:
       return Object.assign({}, state, { loadingRecipes: action.payload });

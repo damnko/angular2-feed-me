@@ -2,11 +2,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NgModule } from '@angular/core';
 
-import { ingredient, recipe, layout } from './reducers';
+import { reducer } from './reducers';
 import { LayoutActions, RecipeActions, IngredientActions } from './actions';
 import { RecipeEffects, IngredientEffects } from './effects';
 import { RecipeService, IngredientService, LayoutService } from './services';
-import { initialIngredient, initialRecipe, initialLayout } from './models';
 
 const NGRX_ACTIONS = [
   LayoutActions,
@@ -24,10 +23,7 @@ const SERVICES = [
   imports: [
     EffectsModule.run(IngredientEffects),
     EffectsModule.run(RecipeEffects),
-    StoreModule.provideStore(
-      { ingredient, recipe, layout },
-      { ingredient: initialIngredient, recipe: initialRecipe, layout: initialLayout }
-    ),
+    StoreModule.provideStore(reducer),
   ],
   exports: [
   ],

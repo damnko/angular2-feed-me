@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { Ingredient } from '../models';
+import { Ingredient, initialIngredient } from '../models';
 import {
   SET_LOADING,
   SEARCH_INGREDIENT,
@@ -13,7 +13,7 @@ import {
   CLEAR_SEARCH
 } from '../actions';
 
-export function ingredient(state: Ingredient, action: Action): Ingredient {
+export function ingredient(state: Ingredient = initialIngredient, action: Action): Ingredient {
   switch (action.type) {
     case SET_LOADING:
       return Object.assign({}, state, { loading: action.payload });

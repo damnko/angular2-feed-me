@@ -43,8 +43,8 @@ export class SearchInputComponent implements OnInit, AfterViewInit, OnDestroy {
     private ingredientActions: IngredientActions,
     private dialog: MdDialog,
     private recipeActions: RecipeActions,
-    private ingredient: IngredientService,
-    private recipe: RecipeService,
+    public ingredient: IngredientService,
+    public recipe: RecipeService,
   ) {
     this.itemsPerPage = this.ingredient.itemsPerPage;
   }
