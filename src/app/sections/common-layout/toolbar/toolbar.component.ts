@@ -16,9 +16,11 @@ import { LayoutService } from '../../../core/services/layout.service';
       <i class="fa fa-bars" *ngIf="!(layout.sidebarOpened$ | async)"></i>
       <i class="fa fa-times" *ngIf="layout.sidebarOpened$ | async"></i>
     </a>
-    <a routerLink="/" routerLinkActive="active">FeedMe Logo</a>
+    <a routerLink="/" routerLinkActive="active">FeedMe</a>
     <span class="menu-space-filler"></span>
-    <a routerLink="/" routerLinkActive="active">Github</a>
+    <a href="https://github.com/damnko/angular2-feed-me">
+      <i class="fa fa-2x fa-github" aria-hidden="true"></i>
+    </a>
   </md-toolbar>
   `
 })

@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutAlign="center">
   <div fxFlex="100" fxFlex.gt-sm="50">
     <md-input-container align="center" class="main-search">
-      <input mdInput placeholder="Search ingredient here" #searchBox>
+      <input mdInput placeholder="Type ingredient here" #searchBox>
     </md-input-container>
     <div *ngIf="(ingredient.searchTerm$ | async) === ''" class="animated bounce">
       Type some ingredient like <strong class="typewriter" (click)="searchSampleString(sampleString)" #sampleString></strong>

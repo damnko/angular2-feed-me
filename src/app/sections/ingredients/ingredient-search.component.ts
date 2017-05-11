@@ -5,6 +5,11 @@ import { IngredientService } from '../../core/services/ingredient.service';
   selector: 'ingredient-search',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
+    h2.title {
+      text-shadow: 2px 2px 0px rgb(255, 255, 255);
+      text-transform: uppercase;
+      font-size: 2em;
+    }
     .content {
       text-align: center;
       -webkit-transition: all 500ms cubic-bezier(0.120, 1, 0.720, 0.955); /* older webkit */
@@ -20,7 +25,7 @@ import { IngredientService } from '../../core/services/ingredient.service';
   template: `
   <div fxLayout="row" fxLayoutAlign="space-around center">
     <div fxFlex="100" class="content" [class.no-search]="(ingredient.searchTerm$ | async) === ''">
-      <h2>Ingredient search</h2>
+      <h2 class="title">Ingredient search</h2>
       <search-input></search-input>
     </div>
   </div>
