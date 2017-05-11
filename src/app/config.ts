@@ -1,11 +1,10 @@
-import { config } from 'firebase-functions';
-
+// hardcoding the apis just for the sake of this demo
 export const config = {
   usda: {
-    apiKey: process.env.USDA_API || config().usda.api || 'YOUR_USDA_API_KEY'
+    apiKey: process.env.USDA_API || 'FQX8nVTZlGIKRyxzBTJJTaKeMBkpIPZNgxTdN1Px'
   },
   edamam: {
-    apiKey: process.env.EDAMAM_KEY || config().edamam.key || 'YOUR_EDAMAM_API_KEY',
-    appId: process.env.EDAMAM_APP_ID || config().edamam.id || 'YOUR_EDAMAM_APP_ID'
+    apiKey: process.env.EDAMAM_KEY || 'de477c78f5de444e37261e320e4a4d3a',
+    appId: process.env.EDAMAM_APP_ID || '68ad704d'
   }
 };

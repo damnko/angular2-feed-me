@@ -16,10 +16,11 @@ Install these globals with `npm install --global`:
 Once you have installed all prerequisites,
 * `fork` this repo
 * `clone` your fork
-* `npm install` to install all dependencies
+* `yarn` or `npm install` to install all dependencies
 
 ### Configuring the APIs
-This project uses two APIs from [Edamam](https://www.edamam.com/) and [USDA](https://ndb.nal.usda.gov/ndb/). In order to use them you will have to register for a free API key
+This project uses two APIs from [Edamam](https://www.edamam.com/) and [USDA](https://ndb.nal.usda.gov/ndb/).
+The project will work even without modifying the current API configuration, for extensive usage you should register for a free dedicated API key:
 * [USDA API registration](https://api.data.gov/signup/)
 * [Edamam API registration](https://developer.edamam.com/edamam-recipe-api)
 Once registerd you can insert your keys on `/src/app/config.ts` or create a `.env` file like the following
@@ -31,7 +32,7 @@ EDAMAM_KEY=your_app_key
 # USDA API
 USDA_API=your_api_key
 ```
-That will be loaded on app startup
+That will be loaded on app startup.
 
 ## License
 MIT © [damnko](https://github.com/damnko)
