@@ -1,4 +1,18 @@
+<p align="center">
+  <a href="https://angular2-feed-me.firebaseapp.com/" target="_blank">
+    <img src="https://angular2-feed-me.firebaseapp.com/assets/img/preview.gif" alt="Angular 2 Feed Me demo" width="800"/>
+  </a>
+  <a href="https://angular2-feed-me.firebaseapp.com/" target="_blank">
+    View Demo
+  </a>
+</p>
+
 # Angular2 Feed Me
+[![Build Status][build-badge]][build-link]
+[![Dependency Status][dependency-badge]][dependency-link]
+[![devDependency Status][devDependency-badge]][devDependency-link]
+[![License][licence-badge]]()
+
 A sample Angular 2 app to explore:
 * @ngrx/store and @ngrx/effects
 * webpack 2
@@ -36,3 +50,11 @@ That will be loaded on app startup.
 
 ## License
 MIT © [damnko](https://github.com/damnko)
+
+[build-badge]: https://travis-ci.org/damnko/angular2-feed-me.png?branch=master
+[build-link]: https://travis-ci.org/damnko/angular2-feed-me
+[dependency-badge]: https://david-dm.org/damnko/angular2-feed-me/status.svg?style=flat-square
+[dependency-link]: https://david-dm.org/damnko/angular2-feed-me
+[devDependency-badge]: https://david-dm.org/damnko/angular2-feed-me/dev-status.svg?style=flat-square
+[devDependency-link]: https://david-dm.org/damnko/angular2-feed-me
+[licence-badge]: https://img.shields.io/npm/l/express.svg
