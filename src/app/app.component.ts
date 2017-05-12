@@ -1,5 +1,5 @@
 import { Store } from '@ngrx/store';
-import { Component, ViewEncapsulation, OnInit } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 
 import { Layout, AppState } from './core/models';
 import { LayoutActions } from './core/actions';
@@ -22,12 +22,13 @@ import { config } from './config';
     </ng-sidebar-container>
   `
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
   sidebarOpened: boolean = false;
 
   constructor(
     private store: Store<AppState>,
-    private layoutActions: LayoutActions
+    private layoutActions: LayoutActions,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
@@ -46,5 +47,11 @@ export class AppComponent implements OnInit {
 
   openSidebar(open: boolean): void {
       this.sidebarOpened = open;
+  }
+
+  ngAfterViewInit() {
+    // hide preloader
+    const preloader: HTMLElement = document.getElementById('preloader');
+    this.renderer.addClass(preloader, 'loaded');
   }
 }
