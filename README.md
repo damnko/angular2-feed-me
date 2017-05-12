@@ -1,3 +1,9 @@
+# Angular2 Feed Me
+[![Build Status][build-badge]][build-link]
+[![Dependency Status][dependency-badge]][dependency-link]
+[![devDependency Status][devDependency-badge]][devDependency-link]
+[![License][licence-badge]](/LICENSE)
+
 <p align="center">
   <a href="https://angular2-feed-me.firebaseapp.com/" target="_blank">
     <img src="https://angular2-feed-me.firebaseapp.com/assets/img/preview.gif" alt="Angular 2 Feed Me demo" width="800"/>
@@ -6,12 +12,6 @@
     View Demo
   </a>
 </p>
-
-# Angular2 Feed Me
-[![Build Status][build-badge]][build-link]
-[![Dependency Status][dependency-badge]][dependency-link]
-[![devDependency Status][devDependency-badge]][devDependency-link]
-[![License][licence-badge]](/LICENSE)
 
 A sample Angular 2 app to explore:
 * @ngrx/store and @ngrx/effects
