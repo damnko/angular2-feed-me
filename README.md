@@ -11,7 +11,7 @@
 [![Build Status][build-badge]][build-link]
 [![Dependency Status][dependency-badge]][dependency-link]
 [![devDependency Status][devDependency-badge]][devDependency-link]
-[![License][licence-badge]]()
+[![License][licence-badge]](/LICENSE)
 
 A sample Angular 2 app to explore:
 * @ngrx/store and @ngrx/effects
