@@ -31,7 +31,9 @@ export class IngredientEffects {
     .switchMap(({ name, page }) => {
       return this.ingredientService.searchIngredient(name, page)
         .map(res => this.ingredientActions.searchSuccess(res))
-        .catch(err => Observable.of(this.ingredientActions.searchFailed(err)))
+        .catch(err => {
+          return Observable.of(this.ingredientActions.searchFailed(err));
+        })
         .finally(() => this.store.dispatch(this.ingredientActions.setLoading(false)));
     });
 

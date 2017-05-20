@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import { IngredientActions } from './ingredient-actions';
 import {
   SEARCH_INGREDIENT,
@@ -10,7 +11,6 @@ import {
   SEARCH_INGREDIENT_DETAILS_SUCCESS,
   SEARCH_INGREDIENT_DETAILS_FAILED
 } from './ingredient-actions';
-import { Action } from '@ngrx/store';
 
 describe('ingredient-actions', () => {
   let actions: IngredientActions;
@@ -53,7 +53,7 @@ describe('ingredient-actions', () => {
 
   describe('searchFailed', () => {
     it('should return an action', () => {
-      const error = 'An error occurred';
+      const error = new Error('An error occurred');
       const action = actions.searchFailed(error);
 
       const result: Action = {
@@ -138,7 +138,7 @@ describe('ingredient-actions', () => {
 
   describe('searchDetailsFailed', () => {
     it('should return an action', () => {
-      const error = 'An error occurred';
+      const error = new Error('An error occurred');
       const action = actions.searchDetailsFailed(error);
 
       const result: Action = {
