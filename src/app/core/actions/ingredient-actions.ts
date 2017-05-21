@@ -31,7 +31,7 @@ export class IngredientActions {
     };
   }
 
-  searchFailed(error: string): Action {
+  searchFailed(error: Error): Action {
     return {
       type: SEARCH_INGREDIENT_FAIL,
       payload: error
@@ -72,7 +72,7 @@ export class IngredientActions {
     };
   }
 
-  searchDetailsFailed(error: string): Action {
+  searchDetailsFailed(error: Error): Action {
     return {
       type: SEARCH_INGREDIENT_DETAILS_FAILED,
       payload: error

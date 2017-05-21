@@ -57,3 +57,9 @@ export function getIngredientDetails(store$: Store<AppState>): Observable<any> {
     .map((ingredient: Ingredient) => ingredient.details)
     .distinctUntilChanged();
 }
+
+export function getIngredientDetailsLoading(store$: Store<AppState>): Observable<boolean> {
+  return store$.let(getIngredientsState)
+    .map(ing => ing.loadingDetails)
+    .distinctUntilChanged();
+}

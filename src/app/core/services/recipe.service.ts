@@ -64,23 +64,25 @@ export class RecipeService {
 
     return this.http.get(`${baseUrl}?${urlParams}`)
       .map(res => res.json())
-      .map(res => {
+      .map(res => this.refactorRes(res, page));
+  }
+
+  refactorRes(res: any, page: number): any {
+    return {
+      query: res.q,
+      total: res.count,
+      page,
+      hits: res.hits.map((item: any) => {
         return {
-          query: res.q,
-          total: res.count,
-          page,
-          hits: res.hits.map((item: any) => {
-            return {
-              name: item.recipe.label,
-              img: item.recipe.image,
-              url: item.recipe.url,
-              labels: item.recipe.healthLabels,
-              calories: item.recipe.calories,
-              ingredients: item.recipe.ingredientLines
-            };
-          })
+          name: item.recipe.label,
+          img: item.recipe.image,
+          url: item.recipe.url,
+          labels: item.recipe.healthLabels,
+          calories: item.recipe.calories,
+          ingredients: item.recipe.ingredientLines
         };
-      });
+      })
+    };
   }
 
   isIngredientSaved$(ndbno: string): Observable<boolean> {

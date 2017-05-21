@@ -15,6 +15,7 @@ import {
   getSelectedIngredientNutrients,
   getIngredientError,
   getIngredientDetails,
+  getIngredientDetailsLoading
 } from '../selectors/ingredients-selectors';
 
 @Injectable()
@@ -25,6 +26,7 @@ export class IngredientService {
   selectedIngredient$: Observable<any>;
   error$: Observable<any>;
   details$: Observable<any>;
+  loadingDetails$: Observable<boolean>;
   selectedIngredientName$: Observable<string>;
   selectedIngredientNutrients$: Observable<any>;
   itemsPerPage: number = 30;
@@ -39,6 +41,7 @@ export class IngredientService {
     this.selectedIngredient$ = getSelectedIngredient(store);
     this.error$ = getIngredientError(store);
     this.details$ = getIngredientDetails(store);
+    this.loadingDetails$ = getIngredientDetailsLoading(store);
     this.selectedIngredientName$ = getSelectedIngredientName(store);
     this.selectedIngredientNutrients$ = getSelectedIngredientNutrients(store);
   }
@@ -65,14 +68,7 @@ export class IngredientService {
     return this.http.get(`${baseUrl}?${urlParams}`)
       .map((res) => res.json())
       .map(res => res.list)
-      .map(res => {
-        return {
-          // need to hardcode page nr since the usda api seems buggy in returnin offset param
-          page,
-          total: res.total,
-          item: res ? res.item.map((ing: any) => this.refactorIngredient(ing)) : []
-        };
-      });
+      .map(res =>  this.refactorRes(res, page));
   }
 
   searchIngredientDetails(ndbno: string): Observable<any> {
@@ -84,6 +80,15 @@ export class IngredientService {
 
     return this.http.get(`${baseUrl}?${urlParams}`)
       .map(res => res.json());
+  }
+
+  refactorRes(res: any, page: number): any {
+    return {
+      // need to hardcode page nr since the usda api seems buggy in returnin offset param
+      page,
+      total: res.total,
+      item: res ? res.item.map((ing: any) => this.refactorIngredient(ing)) : []
+    };
   }
 
   private refactorIngredient(ingredient: any): any {

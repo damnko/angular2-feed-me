@@ -55,7 +55,7 @@ export class RecipeActions {
     };
   }
 
-  searchRecipeFailed(error: string): Action {
+  searchRecipeFailed(error: Error): Action {
     return {
       type: SEARCH_RECIPE_FAILED,
       payload: error
